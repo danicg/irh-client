@@ -13,6 +13,7 @@ import { QueueService } from '../../shared/queue.service';
 })
 export class HomePage {
   queue$: Observable<ObjQueue[]>;
+  nextUser$: Observable<ObjQueue | string>
   timeEstimated$: Observable<string>;
 
   constructor(
@@ -20,9 +21,8 @@ export class HomePage {
     private store: Store<fromRoot.State>,
     private queueService: QueueService
   ) {
-    this.queue$ = this.queueService.listenQueue();
-    this.queue$.subscribe(e => console.log(e));
-    this.timeEstimated$ = this.queueService.getTimeEstimatedAllQueue();
+    this.nextUser$ = this.queueService.getNextUser('/granvia');
+    this.timeEstimated$ = this.queueService.getTimeEstimatedQueue('/granvia');
   }
 
 }

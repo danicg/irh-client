@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 import { AngularFireDatabase } from 'angularfire2/database'
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/operator/take';
 import 'rxjs/add/observable/of';
 
 import { ObjQueue } from '../models/object-queue';
@@ -14,19 +15,29 @@ import { ObjQueue } from '../models/object-queue';
 @Injectable()
 export class QueueService {
 
-  queuesPath: string = '/queues/granvia';
+  queuesPath: string = '/queues';
   
   constructor(private afDataBase: AngularFireDatabase) {}
 
-  getTimeEstimatedAllQueue() {
-    return this.afDataBase.list(this.queuesPath).valueChanges()
+  getTimeEstimatedQueue(path) {
+    return this.afDataBase.list(this.queuesPath + path).valueChanges()
       .switchMap((e: ObjQueue[]) => {
         return Observable.of(this.formatTime(this.calculateTime(e)));
       });
   }
 
-  listenQueue(): Observable<ObjQueue[]> {
-    return this.afDataBase.list(this.queuesPath).valueChanges();
+  listenQueue(path): Observable<ObjQueue[]> {
+    return this.afDataBase.list(this.queuesPath + path).valueChanges();
+  }
+
+  getNextUser(path) {
+    return this.afDataBase.list(this.queuesPath + path).valueChanges()      
+      .switchMap((e: ObjQueue[]) => {
+        if(e) {
+          return Observable.of(e[0]);
+        }
+        return Observable.of('Error pringao');
+      });
   }
 
   calculateTime(queue: ObjQueue[]) {
@@ -41,7 +52,15 @@ export class QueueService {
     s = (s - secs) / 60;
     let mins = s % 60;
     let hrs = (s - mins) / 60;
-    return hrs + ':' + mins + ':' + secs;
+    return this.addZero(hrs) + ':' + this.addZero(mins) + ':' + this.addZero(secs);
+  }
+
+  addZero(unitTime) {
+    const unitTimeStr = unitTime.toString();
+    if(unitTimeStr.length === 1) {
+      return '0' + unitTimeStr;
+    }
+    return unitTimeStr;
   }
 
 }
