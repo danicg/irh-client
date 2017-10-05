@@ -3,24 +3,45 @@ import { Component, Input } from '@angular/core';
 @Component({
   selector: 'show-room-item',
   template: `
-  <div class="show-room-item" [class.occupied]="occupied">
+  <ion-card>
+    <ion-card-header>
+      <div class="title"> Probador {{roomId}}</div> <div class="semaphore" [class.occupied]="occupied"></div>
+    </ion-card-header>
+    <hr *ngIf="occupied">
+    <ion-card-content *ngIf="occupied">
+      Ticket: {{ timestamp }}
+      <br>
+      WearCount: {{ wearCount }}
+    </ion-card-content>
+  </ion-card>
+  <!--div class="show-room-item" [class.occupied]="occupied">
     Probador: {{roomId}}
     <div *ngIf="occupied">
       Ticket: {{ timestamp }}
       WearCount: {{ wearCount }}
     </div>
 
-  </div>
+  </div-->
   `,
   styles:[`
     .show-room-item{
-      padding: 25px;
       margin: 15px;
-      border: solid 1px #000;
+    }
+    .semaphore {
+      width: 20px;
+      height: 20px;
+      border-radius: 10px;
+      background-color: green;
+      position: relative;
+      float:right;
+    }
+    .title{
+      position: relative;
+      margin-right: 10px;
+      float:left;
     }
     .occupied {
       background-color: red;
-      color: white;
     }
   `]
 })

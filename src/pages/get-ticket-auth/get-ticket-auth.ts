@@ -1,11 +1,10 @@
 import { ObjQueue } from './../../models/object-queue';
 import { QueueService } from './../../shared/queue.service';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { AngularFireDatabase } from 'angularfire2/database'
-
 
 import { ShopService } from '../../shared/shops.service';
 import { UserService } from '../../shared/user.service';
@@ -21,7 +20,7 @@ import * as fromRoot from '../../reducers';
     }
   `]
 })
-export class GetTicketAuthPage implements OnInit {
+export class GetTicketAuthPage {
   shops$: Observable<Shop[]>;
   selectedShop: Shop;
   selectedWear: number;
