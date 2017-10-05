@@ -1,13 +1,13 @@
 //import { createSelector } from 'reselect';
 import { createSelector } from '@ngrx/store';
-import { ObjQueue } from '../models/queue';
+import { ObjQueue } from '../models/object-queue';
 import * as queues from '../actions/queues';
 
 
 export interface State {
   queues: ObjQueue[]
 };
-
+ 
 export const initialState: State = {
   queues: []
 };
