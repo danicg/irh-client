@@ -1,16 +1,20 @@
 import { ObjQueue } from './../models/object-queue';
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 
 @Injectable()
-export class LoyScraperService {
+export class MicroserviceService {
 
-  path = '';
-  constructor(private _http: Http) { }
+  path = 'http://h2729551.stratoserver.net:9090';
+  constructor(private _http: HttpClient) { }
 
   occupateRoom(shopId: string, roomId: string, userPayload: ObjQueue): Observable<any> {
-    return this._http.post(`${this.path}`, userPayload);
+    return this._http.post(`${this.path}/${shopId}/${roomId}`, { user: userPayload});
+  }
+
+  desoccupateRoom(shopId: string, roomId: string): Observable<any> {
+    return this._http.post(`${this.path}/${shopId}/${roomId}`, {});
   }
 
 }

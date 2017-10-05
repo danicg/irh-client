@@ -1,4 +1,5 @@
-import { Http } from '@angular/http';
+import { MicroserviceService } from './../shared/microservice.service';
+import { HttpClientModule } from '@angular/common/http';
 import { ShowRoomComponent, ShowRoomItemComponent } from './../components/show-room.component';
 import { SelectWearsComponent } from './../components/select-wears.component';
 import { SelectShopComponent } from './../components/select-shop.component';
@@ -60,7 +61,8 @@ import { UserService } from '../shared/user.service';
     IonicModule.forRoot(MyApp),
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
-    AngularFireDatabaseModule
+    AngularFireDatabaseModule,
+    HttpClientModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -82,8 +84,8 @@ import { UserService } from '../shared/user.service';
     LoadDataProvider,
     QueueService,
     ShopService,
-    Http,
-    UserService
+    UserService,
+    MicroserviceService
   ]
 })
 export class AppModule {}

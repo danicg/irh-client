@@ -16,14 +16,14 @@ import { ObjQueue } from '../models/object-queue';
 export class QueueService {
 
   queuesPath: string = '/queues';
-  
+
   constructor(private afDataBase: AngularFireDatabase) {}
 
   getTimeEstimatedQueue(path) {
     return this.afDataBase.list(this.queuesPath + path).valueChanges()
       .switchMap((e: ObjQueue[]) => {
         return Observable.of(this.formatTime(this.calculateTime(e)));
-      });  
+      });
   }
 
   listenQueue(path): Observable<ObjQueue[]> {
@@ -31,10 +31,8 @@ export class QueueService {
   }
 
   getNextUser(path): any {
-    return this.afDataBase.list(this.queuesPath + path).valueChanges()      
-      .switchMap((e: ObjQueue[]) => {      
-          return Observable.of(e[0]);        
-      });
+    return this.afDataBase.list(this.queuesPath + path).valueChanges()
+      .switchMap((e: ObjQueue[]) => Observable.of(e[0]));
   }
 
   calculateTime(queue: ObjQueue[]) {
@@ -58,6 +56,22 @@ export class QueueService {
       return '0' + unitTimeStr;
     }
     return unitTimeStr;
+  }
+
+  popUser(path: string): Promise<any> {
+
+    let user = null;
+    return this.afDataBase.database.ref(this.queuesPath + path).once('value').then(value => {
+      const object = value.val();
+      const key = Object.keys(object)[0];
+      user = object[key];
+      this.removeItemFromList(path,key);
+      return user;
+    })
+  }
+
+  removeItemFromList(path: string, key: string) {
+    this.afDataBase.list(this.queuesPath + path).remove(key);
   }
 
 }

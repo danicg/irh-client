@@ -6,7 +6,14 @@ import { Component, Input } from '@angular/core';
   <div class="show-queue-item">
     {{ticket}}
   </div>
-  `
+  `,
+  styles:[`
+  .show-queue-item{
+    padding: 10px;
+    margin: 5px;
+    border: solid 1px #000;
+  }`]
+
 })
 export class ShowQueueItemComponent {
   @Input('ticket') ticket: string;

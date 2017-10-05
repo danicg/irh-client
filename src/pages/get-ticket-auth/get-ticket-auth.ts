@@ -1,5 +1,3 @@
-import { ShopService } from './../../shared/shops.service';
-
 import { ObjQueue } from './../../models/object-queue';
 import { QueueService } from './../../shared/queue.service';
 import { Component, OnInit } from '@angular/core';
