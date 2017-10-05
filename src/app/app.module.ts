@@ -32,6 +32,7 @@ import { QueueService } from '../shared/queue.service';
 import { ShopService } from '../shared/shops.service';
 
 
+
 @NgModule({
   declarations: [
     MyApp,
