@@ -1,0 +1,20 @@
+<ion-header>
+    <ion-navbar>
+      <button ion-button menuToggle>
+        <ion-icon name="menu"></ion-icon>
+      </button>
+      <ion-title>Get ticket Auth</ion-title>
+    </ion-navbar>
+  </ion-header>
+
+  <ion-content padding>
+    <select-shop></select-shop>
+    <show-queue>
+        <show-queue-item *ngFor="let user of queue$ | async ; let i = index" [ticket]="user.timestamp" [userId]="user.userId">
+        </show-queue-item>
+    </show-queue>
+    <show-room>
+      <show-room-item *ngFor="let room of rooms$ | async; let i = index" [roomId]="room.id" [occupied]="room.occupied">
+      </show-room-item>
+    </show-room>
+  </ion-content>

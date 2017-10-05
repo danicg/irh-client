@@ -11,10 +11,16 @@ export class ShopService {
 
   shopsPath: string = '/shops';
 
-  constructor(private afDataBase: AngularFireDatabase) { }
+  constructor(private afDataBase: AngularFireDatabase) {
 
-  listenShops() {    
+   }
+
+  listenShops() {
     return this.afDataBase.object(this.shopsPath).valueChanges();
+  }
+
+  listenShop(path: string) {
+    return this.afDataBase.object(`${this.shopsPath}/${path}`).valueChanges();
   }
 
 }

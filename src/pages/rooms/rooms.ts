@@ -10,10 +10,10 @@ import { Observable } from 'rxjs/Observable';
 import * as fromRoot from '../../reducers';
 
 @Component({
-  selector: 'get-ticket-auth',
-  templateUrl: 'get-ticket-auth.html'
+  selector: 'rooms',
+  templateUrl: 'rooms.html'
 })
-export class GetTicketAuthPage implements OnInit {
+export class RoomsPage implements OnInit {
 
   queue$: Observable<ObjQueue[]>
   rooms$: Observable<{}>

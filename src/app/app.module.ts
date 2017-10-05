@@ -1,3 +1,5 @@
+import { Http } from '@angular/http';
+import { ShowRoomComponent, ShowRoomItemComponent } from './../components/show-room.component';
 import { SelectWearsComponent } from './../components/select-wears.component';
 import { SelectShopComponent } from './../components/select-shop.component';
 import { GetTicketComponent } from './../components/get-ticket.component';
@@ -27,10 +29,10 @@ import { AuthProvider } from './../providers/auth.provider';
 import { UserProvider } from './../providers/user.provider';
 import { LoadDataProvider } from './../providers/load-data.provider';
 import { GetTicketAuthPage } from './../pages/get-ticket-auth/get-ticket-auth';
+import { RoomsPage } from './../pages/rooms/rooms';
 
 import { QueueService } from '../shared/queue.service';
 import { ShopService } from '../shared/shops.service';
-
 
 
 @NgModule({
@@ -46,7 +48,10 @@ import { ShopService } from '../shared/shops.service';
     SelectWearsComponent,
     GetTicketComponent,
     ShowQueueComponent,
-    ShowQueueItemComponent
+    ShowQueueItemComponent,
+    ShowRoomComponent,
+    ShowRoomItemComponent,
+    RoomsPage
   ],
   imports: [
     BrowserModule,
@@ -64,7 +69,8 @@ import { ShopService } from '../shared/shops.service';
     LoginPage,
     UsersListPage,
     LoadDataPage,
-    GetTicketAuthPage
+    GetTicketAuthPage,
+    RoomsPage
   ],
   providers: [
     StatusBar,
@@ -74,7 +80,8 @@ import { ShopService } from '../shared/shops.service';
     UserProvider,
     LoadDataProvider,
     QueueService,
-    ShopService
+    ShopService,
+    Http
   ]
 })
 export class AppModule {}

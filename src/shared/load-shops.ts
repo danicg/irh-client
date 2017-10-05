@@ -10,23 +10,27 @@ export const shops = {
     "wearAvg": 0,
     "wearCount": 0,
     "amountTimeSpent": 0,
-    "probadores": {
+    "rooms": {
       "0": {
+        "id": 0,
         "occupied": false,
         "tsStart": null,
         "userId": null
       },
       "1": {
+        "id": 1,
         "occupied": false,
         "tsStart": null,
         "userId": null
       },
       "2": {
+        "id": 2,
         "occupied": false,
         "tsStart": null,
         "userId": null
       },
       "3": {
+        "id": 3,
         "occupied": false,
         "tsStart": null,
         "userId": null
@@ -43,23 +47,27 @@ export const shops = {
     "wearAvg": 0,
     "wearCount": 0,
     "amountTimeSpent": 0,
-    "probadores": {
+    "rooms": {
       "0": {
+        "id": 0,
         "occupied": false,
         "tsStart": null,
         "userId": null
       },
       "1": {
+        "id": 1,
         "occupied": false,
         "tsStart": null,
         "userId": null
       },
       "2": {
+        "id": 2,
         "occupied": false,
         "tsStart": null,
         "userId": null
       },
       "3": {
+        "id": 3,
         "occupied": false,
         "tsStart": null,
         "userId": null
@@ -76,23 +84,27 @@ export const shops = {
     "wearAvg": 0,
     "wearCount": 0,
     "amountTimeSpent": 0,
-    "probadores": {
+    "rooms": {
       "0": {
+        "id": 0,
         "occupied": false,
         "tsStart": null,
         "userId": null
       },
       "1": {
+        "id": 1,
         "occupied": false,
         "tsStart": null,
         "userId": null
       },
       "2": {
+        "id": 2,
         "occupied": false,
         "tsStart": null,
         "userId": null
       },
       "3": {
+        "id": 3,
         "occupied": false,
         "tsStart": null,
         "userId": null

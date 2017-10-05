@@ -13,6 +13,7 @@ import { LoginPage } from './../pages/login/login';
 import { UsersListPage } from '../pages/usersList/usersList';
 import { LoadDataPage } from '../pages/load-data/load-data';
 import { GetTicketAuthPage } from '../pages/get-ticket-auth/get-ticket-auth';
+import { RoomsPage } from '../pages/rooms/rooms';
 
 import { QueueService } from '../shared/queue.service';
 import { ShopService } from '../shared/shops.service';
@@ -23,7 +24,7 @@ import { ShopService } from '../shared/shops.service';
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage: any = GetTicketAuthPage;
+  rootPage: any = RoomsPage;
 
   pages: Array<{title: string, component: any}>;
 
@@ -45,6 +46,7 @@ export class MyApp {
       { title: 'UsersList', component: UsersListPage },
       { title: 'LoadData', component: LoadDataPage },
       { title: 'GetTicketAuth', component: GetTicketAuthPage },
+      { title: 'Rooms', component: RoomsPage },
     ];
 
     // Observable queue

@@ -15,4 +15,8 @@
       <show-queue-item *ngFor="let user of queue$ | async ; let i = index" [ticket]="user.timestamp" [userId]="user.userId">
       </show-queue-item>
   </show-queue>
+  <show-room>
+    <show-room-item *ngFor="let room of rooms$ | async; let i = index" [roomId]="room.id" [occupied]="room.occupied">
+    </show-room-item>
+  </show-room>
 </ion-content>
