@@ -30,6 +30,7 @@ import { GetTicketAuthPage } from './../pages/get-ticket-auth/get-ticket-auth';
 
 import { QueueService } from '../shared/queue.service';
 import { ShopService } from '../shared/shops.service';
+import { UserService } from '../shared/user.service';
 
 
 
@@ -74,7 +75,8 @@ import { ShopService } from '../shared/shops.service';
     UserProvider,
     LoadDataProvider,
     QueueService,
-    ShopService
+    ShopService,
+    UserService
   ]
 })
 export class AppModule {}

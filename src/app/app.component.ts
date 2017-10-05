@@ -23,7 +23,7 @@ import { ShopService } from '../shared/shops.service';
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage: any = GetTicketAuthPage;
+  rootPage: any = LoginPage;
 
   pages: Array<{title: string, component: any}>;
 
@@ -54,7 +54,7 @@ export class MyApp {
       });
 
     // Observable shops
-    this.shopService.listenShops()
+    this.shopService.listenShop()
       .subscribe(e => {
         console.log('shops',e);
       });

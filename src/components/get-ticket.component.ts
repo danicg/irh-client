@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'get-ticket',
-  template: `<button ion-button>Reservar</button>
+  template: `
   `
 })
 export class GetTicketComponent {

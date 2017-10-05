@@ -1,10 +1,9 @@
 import { Injectable, NgZone } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AngularFireDatabase } from 'angularfire2/database'
+import { Observable } from 'rxjs/Observable';
 
-//import * as fromRoot from './reducers';
-//import firebase = require('nativescript-plugin-firebase');
-//import { MONUMENTS_UPDATE } from './reducers/monuments';
+import { Shop } from '../models/shop';
 
 @Injectable()
 export class ShopService {
@@ -13,8 +12,11 @@ export class ShopService {
 
   constructor(private afDataBase: AngularFireDatabase) { }
 
-  listenShops() {    
-    return this.afDataBase.object(this.shopsPath).valueChanges();
+  listenShop(path = ''): any {
+    if(path) {
+      return this.afDataBase.object(this.shopsPath + path).valueChanges();
+    }
+    return this.afDataBase.list(this.shopsPath + path).valueChanges();
   }
 
 }

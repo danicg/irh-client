@@ -8,11 +8,24 @@
 </ion-header>
 
 <ion-content padding>
-  <select-shop></select-shop>
-  <select-wears></select-wears>
-  <get-ticket></get-ticket>
-  <show-queue>
-      <show-queue-item *ngFor="let user of queue$ | async ; let i = index" [ticket]="user.timestamp" [userId]="user.userId">
-      </show-queue-item>
-  </show-queue>
+  <div *ngIf="!reserved">
+    <h3>Zaras cercanos a tu ubicación y su trafico actual:</h3>
+    <p>{{ (shops$ | async) | json }}</p>
+    <div>
+      <div (click)="selectShop(shop)" *ngFor="let shop of shops$ | async; let i = index">
+        <h4>{{shop.name}}</h4>
+        Tiempo de espera aprox en probadores: XX:XX
+      </div>
+    </div>
+  
+    <select-wears *ngIf="selectedShop" (numWear)="selectedWear = $event;">
+      
+    </select-wears>
+    <div class="box-rsvp" *ngIf="selectedWear">
+      <h5>Reservar turno en tienda: {{selectedShop.name}}</h5>
+      <h5>Numero de prendas: {{selectedWear}}</h5>
+      <button (click)="reserve()" ion-button>Reservar</button>
+    </div>
+  </div>
+
 </ion-content>
