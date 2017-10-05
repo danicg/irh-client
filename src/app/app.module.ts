@@ -4,6 +4,7 @@ import { ShowRoomComponent, ShowRoomItemComponent } from './../components/show-r
 import { SelectWearsComponent } from './../components/select-wears.component';
 import { SelectShopComponent } from './../components/select-shop.component';
 import { GetTicketComponent } from './../components/get-ticket.component';
+import { WallNextPerson } from './../components/wall-next-person';
 import { ShowQueueComponent, ShowQueueItemComponent } from './../components/show-queue.component';
 
 import { BrowserModule } from '@angular/platform-browser';
@@ -49,11 +50,12 @@ import { UserService } from '../shared/user.service';
     SelectShopComponent,
     SelectWearsComponent,
     GetTicketComponent,
-    ShowQueueComponent,
-    ShowQueueItemComponent,
+    ShowQueueComponent,    
     ShowRoomComponent,
     ShowRoomItemComponent,
-    RoomsPage
+    RoomsPage,
+    WallNextPerson,
+    ShowQueueItemComponent
   ],
   imports: [
     BrowserModule,

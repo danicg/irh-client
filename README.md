@@ -1,5 +1,5 @@
 
-# Deploy URL = https://andyindahouse.github.io/ionic-seed/;
+# Deploy URL = https://danicg.github.io/irh-client/;
 
 
 This is a starter template for [Ionic](http://ionicframework.com/docs/) projects.
