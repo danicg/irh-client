@@ -11,6 +11,8 @@
   <select-shop></select-shop>
   <select-wears></select-wears>
   <get-ticket></get-ticket>
-
-  <show-queue></show-queue>
+  <show-queue>
+      <show-queue-item *ngFor="let item of items; let i = index" [ticket]="item.ticket" [userId]="item.userId">
+      </show-queue-item>
+  </show-queue>
 </ion-content>

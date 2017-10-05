@@ -1,7 +1,7 @@
 import { SelectWearsComponent } from './../components/select-wears.component';
 import { SelectShopComponent } from './../components/select-shop.component';
 import { GetTicketComponent } from './../components/get-ticket.component';
-import { ShowQueueComponent } from './../components/show-queue.component';
+import { ShowQueueComponent, ShowQueueItemComponent } from './../components/show-queue.component';
 
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
@@ -44,7 +44,8 @@ import { ShopService } from '../shared/shops.service';
     SelectShopComponent,
     SelectWearsComponent,
     GetTicketComponent,
-    ShowQueueComponent
+    ShowQueueComponent,
+    ShowQueueItemComponent
   ],
   imports: [
     BrowserModule,

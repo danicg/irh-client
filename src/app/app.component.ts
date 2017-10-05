@@ -23,7 +23,7 @@ import { ShopService } from '../shared/shops.service';
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage: any = HomePage;
+  rootPage: any = GetTicketAuthPage;
 
   pages: Array<{title: string, component: any}>;
 
