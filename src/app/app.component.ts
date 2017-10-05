@@ -5,12 +5,15 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { Store } from '@ngrx/store';
 
 import * as fromRoot from '../reducers';
-import * as category from '../actions/categories';
+import * as queues from '../actions/queues';
 import { HomePage } from '../pages/home/home';
 import { ListPage } from '../pages/list/list';
 import { AuthProvider } from './../providers/auth.provider';
 import { LoginPage } from './../pages/login/login';
 import { UsersListPage } from '../pages/usersList/usersList';
+
+import { QueueService } from '../shared/queue.service';
+import { ShopService } from '../shared/shops.service';
 
 @Component({
   templateUrl: 'app.html'
@@ -18,7 +21,7 @@ import { UsersListPage } from '../pages/usersList/usersList';
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage: any = LoginPage;
+  rootPage: any = HomePage;
 
   pages: Array<{title: string, component: any}>;
 
@@ -27,7 +30,9 @@ export class MyApp {
     public statusBar: StatusBar,
     public splashScreen: SplashScreen,
     private store: Store<fromRoot.State>,
-    private authProvider: AuthProvider
+    private authProvider: AuthProvider,
+    private queueService: QueueService,
+    private shopService: QueueService
   ) {
     this.initializeApp();
 
@@ -38,6 +43,18 @@ export class MyApp {
       { title: 'UsersList', component: UsersListPage }
     ];
 
+    // Observable queue
+    this.queueService.listenQueue()
+      .subscribe(e => {
+        console.log(e);
+      });
+    
+    // Observable queue
+    this.queueService.listenQueue()
+      .subscribe(e => {
+        console.log(e);
+      });
+
   }
 
   initializeApp() {
@@ -46,20 +63,7 @@ export class MyApp {
       // Here you can do any higher level native things you might need.
       this.statusBar.styleDefault();
       this.splashScreen.hide();
-      this.loadCategories()
     });
-  }
-
-  loadCategories() {
-    this.store.dispatch(new category.LoadComplete([
-      { id: '1', name: 'category1'},
-      { id: '2', name: 'category2'},
-      { id: '3', name: 'category3'},
-      { id: '4', name: 'category4'},
-      { id: '5', name: 'category5'},
-      { id: '6', name: 'category6'},
-      { id: '7', name: 'category7'},
-    ]))
   }
 
   openPage(page) {

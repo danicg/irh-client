@@ -1,3 +1,4 @@
+
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { StoreModule } from '@ngrx/store';
@@ -20,6 +21,9 @@ import { LoginPage } from '../pages/login/login';
 import { UsersListPage } from './../pages/usersList/usersList';
 import { AuthProvider } from './../providers/auth.provider';
 import { UserProvider } from './../providers/user.provider';
+
+import { QueueService } from '../shared/queue.service';
+import { ShopService } from '../shared/shops.service';
 
 
 @NgModule({
@@ -51,7 +55,9 @@ import { UserProvider } from './../providers/user.provider';
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     AuthProvider,
-    UserProvider
+    UserProvider,
+    QueueService,
+    ShopService
   ]
 })
 export class AppModule {}
