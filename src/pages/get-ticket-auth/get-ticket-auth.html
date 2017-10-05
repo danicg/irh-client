@@ -10,7 +10,6 @@
 <ion-content padding>
   <div *ngIf="!reserved">
     <h3>Zaras cercanos a tu ubicación y su trafico actual:</h3>
-    <p>{{ (shops$ | async) | json }}</p>
     <div>
       <div (click)="selectShop(shop)" *ngFor="let shop of shops$ | async; let i = index">
         <h4>{{shop.name}}</h4>

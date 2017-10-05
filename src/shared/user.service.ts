@@ -13,14 +13,15 @@ export class UserService {
   user$: Observable<User>;
   userPath: string = '/users'
 
-  constructor(private afDataBase: AngularFireDatabase) {
-    
+  constructor(private afDataBase: AngularFireDatabase) {   
   }
 
   listenUser(uid) {
-    uid = 'oRt6cJAgGDa8VIdo15g1zRLmnxL2';
-    return this.afDataBase.object(`${this.userPath}/${uid}`).valueChanges()
-      .subscribe(e => console.log(e))
+    this.afDataBase.object(`${this.userPath}/${uid}`).valueChanges()
+      .subscribe((e: User) => {
+        this.user = e;
+        console.log(e);
+      })
   }
 }
 
