@@ -11,6 +11,8 @@ import { ListPage } from '../pages/list/list';
 import { AuthProvider } from './../providers/auth.provider';
 import { LoginPage } from './../pages/login/login';
 import { UsersListPage } from '../pages/usersList/usersList';
+import { LoadDataPage } from '../pages/load-data/load-data';
+import { GetTicketAuthPage } from '../pages/get-ticket-auth/get-ticket-auth';
 
 @Component({
   templateUrl: 'app.html'
@@ -18,7 +20,7 @@ import { UsersListPage } from '../pages/usersList/usersList';
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage: any = LoginPage;
+  rootPage: any = GetTicketAuthPage;
 
   pages: Array<{title: string, component: any}>;
 
@@ -35,7 +37,9 @@ export class MyApp {
     this.pages = [
       { title: 'Home', component: HomePage },
       { title: 'List', component: ListPage },
-      { title: 'UsersList', component: UsersListPage }
+      { title: 'UsersList', component: UsersListPage },
+      { title: 'LoadData', component: LoadDataPage },
+      { title: 'GetTicketAuth', component: GetTicketAuthPage },
     ];
 
   }

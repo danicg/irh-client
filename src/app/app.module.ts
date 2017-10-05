@@ -1,3 +1,7 @@
+import { SelectWearsComponent } from './../components/select-wears.component';
+import { SelectShopComponent } from './../components/select-shop.component';
+import { GetTicketComponent } from './../components/get-ticket.component';
+import { ShowQueueComponent } from './../components/show-queue.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { StoreModule } from '@ngrx/store';
@@ -12,15 +16,16 @@ import { AngularFireAuthModule } from 'angularfire2/auth';
 
 import { reducers, metaReducers } from '../reducers';
 
-
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { ListPage } from '../pages/list/list';
 import { LoginPage } from '../pages/login/login';
 import { UsersListPage } from './../pages/usersList/usersList';
+import { LoadDataPage } from './../pages/load-data/load-data';
 import { AuthProvider } from './../providers/auth.provider';
 import { UserProvider } from './../providers/user.provider';
-
+import { LoadDataProvider } from './../providers/load-data.provider';
+import { GetTicketAuthPage } from './../pages/get-ticket-auth/get-ticket-auth';
 
 @NgModule({
   declarations: [
@@ -28,7 +33,13 @@ import { UserProvider } from './../providers/user.provider';
     HomePage,
     ListPage,
     LoginPage,
-    UsersListPage
+    UsersListPage,
+    LoadDataPage,
+    GetTicketAuthPage,
+    SelectShopComponent,
+    SelectWearsComponent,
+    GetTicketComponent,
+    ShowQueueComponent
   ],
   imports: [
     BrowserModule,
@@ -44,14 +55,17 @@ import { UserProvider } from './../providers/user.provider';
     HomePage,
     ListPage,
     LoginPage,
-    UsersListPage
+    UsersListPage,
+    LoadDataPage,
+    GetTicketAuthPage
   ],
   providers: [
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     AuthProvider,
-    UserProvider
+    UserProvider,
+    LoadDataProvider
   ]
 })
 export class AppModule {}
