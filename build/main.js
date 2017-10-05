@@ -709,35 +709,33 @@ Object(__WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__["a" /* pl
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common_http__ = __webpack_require__(160);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_show_room_component__ = __webpack_require__(321);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_select_wears_component__ = __webpack_require__(322);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_select_shop_component__ = __webpack_require__(323);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_get_ticket_component__ = __webpack_require__(324);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_wall_next_person__ = __webpack_require__(325);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__components_show_queue_component__ = __webpack_require__(326);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__angular_platform_browser__ = __webpack_require__(47);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__ngrx_store__ = __webpack_require__(55);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_ionic_angular__ = __webpack_require__(27);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__ionic_native_status_bar__ = __webpack_require__(248);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__ionic_native_splash_screen__ = __webpack_require__(251);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14_angularfire2__ = __webpack_require__(49);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__environments_environment__ = __webpack_require__(387);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16_angularfire2_database__ = __webpack_require__(39);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17_angularfire2_auth__ = __webpack_require__(290);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__reducers__ = __webpack_require__(441);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__app_component__ = __webpack_require__(447);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__pages_home_home__ = __webpack_require__(293);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__pages_list_list__ = __webpack_require__(295);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__pages_login_login__ = __webpack_require__(296);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__pages_usersList_usersList__ = __webpack_require__(297);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__pages_load_data_load_data__ = __webpack_require__(298);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__providers_auth_provider__ = __webpack_require__(146);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__providers_user_provider__ = __webpack_require__(147);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__providers_load_data_provider__ = __webpack_require__(299);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_28__pages_get_ticket_auth_get_ticket_auth__ = __webpack_require__(149);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_29__pages_rooms_rooms__ = __webpack_require__(300);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_30__shared_queue_service__ = __webpack_require__(66);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_31__shared_shops_service__ = __webpack_require__(67);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_32__shared_user_service__ = __webpack_require__(148);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_wall_next_person__ = __webpack_require__(325);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_show_queue_component__ = __webpack_require__(326);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__angular_platform_browser__ = __webpack_require__(47);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__ngrx_store__ = __webpack_require__(55);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_ionic_angular__ = __webpack_require__(27);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__ionic_native_status_bar__ = __webpack_require__(248);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__ionic_native_splash_screen__ = __webpack_require__(251);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12_angularfire2__ = __webpack_require__(49);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__environments_environment__ = __webpack_require__(387);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14_angularfire2_database__ = __webpack_require__(39);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15_angularfire2_auth__ = __webpack_require__(290);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__reducers__ = __webpack_require__(441);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__app_component__ = __webpack_require__(447);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__pages_home_home__ = __webpack_require__(293);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__pages_list_list__ = __webpack_require__(295);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__pages_login_login__ = __webpack_require__(296);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__pages_usersList_usersList__ = __webpack_require__(297);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__pages_load_data_load_data__ = __webpack_require__(298);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__providers_auth_provider__ = __webpack_require__(146);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__providers_user_provider__ = __webpack_require__(147);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__providers_load_data_provider__ = __webpack_require__(299);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__pages_get_ticket_auth_get_ticket_auth__ = __webpack_require__(149);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__pages_rooms_rooms__ = __webpack_require__(300);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_28__shared_queue_service__ = __webpack_require__(66);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_29__shared_shops_service__ = __webpack_require__(67);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_30__shared_user_service__ = __webpack_require__(148);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -775,65 +773,61 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
-
-
 var AppModule = (function () {
     function AppModule() {
     }
     return AppModule;
 }());
 AppModule = __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_9__angular_core__["L" /* NgModule */])({
+    Object(__WEBPACK_IMPORTED_MODULE_7__angular_core__["L" /* NgModule */])({
         declarations: [
-            __WEBPACK_IMPORTED_MODULE_19__app_component__["a" /* MyApp */],
-            __WEBPACK_IMPORTED_MODULE_20__pages_home_home__["a" /* HomePage */],
-            __WEBPACK_IMPORTED_MODULE_21__pages_list_list__["a" /* ListPage */],
-            __WEBPACK_IMPORTED_MODULE_22__pages_login_login__["a" /* LoginPage */],
-            __WEBPACK_IMPORTED_MODULE_23__pages_usersList_usersList__["a" /* UsersListPage */],
-            __WEBPACK_IMPORTED_MODULE_24__pages_load_data_load_data__["a" /* LoadDataPage */],
-            __WEBPACK_IMPORTED_MODULE_28__pages_get_ticket_auth_get_ticket_auth__["a" /* GetTicketAuthPage */],
-            __WEBPACK_IMPORTED_MODULE_4__components_select_shop_component__["a" /* SelectShopComponent */],
+            __WEBPACK_IMPORTED_MODULE_17__app_component__["a" /* MyApp */],
+            __WEBPACK_IMPORTED_MODULE_18__pages_home_home__["a" /* HomePage */],
+            __WEBPACK_IMPORTED_MODULE_19__pages_list_list__["a" /* ListPage */],
+            __WEBPACK_IMPORTED_MODULE_20__pages_login_login__["a" /* LoginPage */],
+            __WEBPACK_IMPORTED_MODULE_21__pages_usersList_usersList__["a" /* UsersListPage */],
+            __WEBPACK_IMPORTED_MODULE_22__pages_load_data_load_data__["a" /* LoadDataPage */],
+            __WEBPACK_IMPORTED_MODULE_26__pages_get_ticket_auth_get_ticket_auth__["a" /* GetTicketAuthPage */],
             __WEBPACK_IMPORTED_MODULE_3__components_select_wears_component__["a" /* SelectWearsComponent */],
-            __WEBPACK_IMPORTED_MODULE_5__components_get_ticket_component__["a" /* GetTicketComponent */],
-            __WEBPACK_IMPORTED_MODULE_7__components_show_queue_component__["a" /* ShowQueueComponent */],
+            __WEBPACK_IMPORTED_MODULE_5__components_show_queue_component__["a" /* ShowQueueComponent */],
             __WEBPACK_IMPORTED_MODULE_2__components_show_room_component__["a" /* ShowRoomComponent */],
             __WEBPACK_IMPORTED_MODULE_2__components_show_room_component__["b" /* ShowRoomItemComponent */],
-            __WEBPACK_IMPORTED_MODULE_29__pages_rooms_rooms__["a" /* RoomsPage */],
-            __WEBPACK_IMPORTED_MODULE_6__components_wall_next_person__["a" /* WallNextPerson */],
-            __WEBPACK_IMPORTED_MODULE_7__components_show_queue_component__["b" /* ShowQueueItemComponent */]
+            __WEBPACK_IMPORTED_MODULE_27__pages_rooms_rooms__["a" /* RoomsPage */],
+            __WEBPACK_IMPORTED_MODULE_4__components_wall_next_person__["a" /* WallNextPerson */],
+            __WEBPACK_IMPORTED_MODULE_5__components_show_queue_component__["b" /* ShowQueueItemComponent */]
         ],
         imports: [
-            __WEBPACK_IMPORTED_MODULE_8__angular_platform_browser__["a" /* BrowserModule */],
-            __WEBPACK_IMPORTED_MODULE_10__ngrx_store__["b" /* StoreModule */].forRoot(__WEBPACK_IMPORTED_MODULE_18__reducers__["b" /* reducers */], { metaReducers: __WEBPACK_IMPORTED_MODULE_18__reducers__["a" /* metaReducers */] }),
-            __WEBPACK_IMPORTED_MODULE_11_ionic_angular__["c" /* IonicModule */].forRoot(__WEBPACK_IMPORTED_MODULE_19__app_component__["a" /* MyApp */], {}, {
+            __WEBPACK_IMPORTED_MODULE_6__angular_platform_browser__["a" /* BrowserModule */],
+            __WEBPACK_IMPORTED_MODULE_8__ngrx_store__["b" /* StoreModule */].forRoot(__WEBPACK_IMPORTED_MODULE_16__reducers__["b" /* reducers */], { metaReducers: __WEBPACK_IMPORTED_MODULE_16__reducers__["a" /* metaReducers */] }),
+            __WEBPACK_IMPORTED_MODULE_9_ionic_angular__["c" /* IonicModule */].forRoot(__WEBPACK_IMPORTED_MODULE_17__app_component__["a" /* MyApp */], {}, {
                 links: []
             }),
-            __WEBPACK_IMPORTED_MODULE_14_angularfire2__["a" /* AngularFireModule */].initializeApp(__WEBPACK_IMPORTED_MODULE_15__environments_environment__["a" /* environment */].firebase),
-            __WEBPACK_IMPORTED_MODULE_17_angularfire2_auth__["b" /* AngularFireAuthModule */],
-            __WEBPACK_IMPORTED_MODULE_16_angularfire2_database__["b" /* AngularFireDatabaseModule */],
+            __WEBPACK_IMPORTED_MODULE_12_angularfire2__["a" /* AngularFireModule */].initializeApp(__WEBPACK_IMPORTED_MODULE_13__environments_environment__["a" /* environment */].firebase),
+            __WEBPACK_IMPORTED_MODULE_15_angularfire2_auth__["b" /* AngularFireAuthModule */],
+            __WEBPACK_IMPORTED_MODULE_14_angularfire2_database__["b" /* AngularFireDatabaseModule */],
             __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClientModule */]
         ],
-        bootstrap: [__WEBPACK_IMPORTED_MODULE_11_ionic_angular__["a" /* IonicApp */]],
+        bootstrap: [__WEBPACK_IMPORTED_MODULE_9_ionic_angular__["a" /* IonicApp */]],
         entryComponents: [
-            __WEBPACK_IMPORTED_MODULE_19__app_component__["a" /* MyApp */],
-            __WEBPACK_IMPORTED_MODULE_20__pages_home_home__["a" /* HomePage */],
-            __WEBPACK_IMPORTED_MODULE_21__pages_list_list__["a" /* ListPage */],
-            __WEBPACK_IMPORTED_MODULE_22__pages_login_login__["a" /* LoginPage */],
-            __WEBPACK_IMPORTED_MODULE_23__pages_usersList_usersList__["a" /* UsersListPage */],
-            __WEBPACK_IMPORTED_MODULE_24__pages_load_data_load_data__["a" /* LoadDataPage */],
-            __WEBPACK_IMPORTED_MODULE_28__pages_get_ticket_auth_get_ticket_auth__["a" /* GetTicketAuthPage */],
-            __WEBPACK_IMPORTED_MODULE_29__pages_rooms_rooms__["a" /* RoomsPage */]
+            __WEBPACK_IMPORTED_MODULE_17__app_component__["a" /* MyApp */],
+            __WEBPACK_IMPORTED_MODULE_18__pages_home_home__["a" /* HomePage */],
+            __WEBPACK_IMPORTED_MODULE_19__pages_list_list__["a" /* ListPage */],
+            __WEBPACK_IMPORTED_MODULE_20__pages_login_login__["a" /* LoginPage */],
+            __WEBPACK_IMPORTED_MODULE_21__pages_usersList_usersList__["a" /* UsersListPage */],
+            __WEBPACK_IMPORTED_MODULE_22__pages_load_data_load_data__["a" /* LoadDataPage */],
+            __WEBPACK_IMPORTED_MODULE_26__pages_get_ticket_auth_get_ticket_auth__["a" /* GetTicketAuthPage */],
+            __WEBPACK_IMPORTED_MODULE_27__pages_rooms_rooms__["a" /* RoomsPage */]
         ],
         providers: [
-            __WEBPACK_IMPORTED_MODULE_12__ionic_native_status_bar__["a" /* StatusBar */],
-            __WEBPACK_IMPORTED_MODULE_13__ionic_native_splash_screen__["a" /* SplashScreen */],
-            { provide: __WEBPACK_IMPORTED_MODULE_9__angular_core__["v" /* ErrorHandler */], useClass: __WEBPACK_IMPORTED_MODULE_11_ionic_angular__["b" /* IonicErrorHandler */] },
-            __WEBPACK_IMPORTED_MODULE_25__providers_auth_provider__["a" /* AuthProvider */],
-            __WEBPACK_IMPORTED_MODULE_26__providers_user_provider__["a" /* UserProvider */],
-            __WEBPACK_IMPORTED_MODULE_27__providers_load_data_provider__["a" /* LoadDataProvider */],
-            __WEBPACK_IMPORTED_MODULE_30__shared_queue_service__["a" /* QueueService */],
-            __WEBPACK_IMPORTED_MODULE_31__shared_shops_service__["a" /* ShopService */],
-            __WEBPACK_IMPORTED_MODULE_32__shared_user_service__["a" /* UserService */],
+            __WEBPACK_IMPORTED_MODULE_10__ionic_native_status_bar__["a" /* StatusBar */],
+            __WEBPACK_IMPORTED_MODULE_11__ionic_native_splash_screen__["a" /* SplashScreen */],
+            { provide: __WEBPACK_IMPORTED_MODULE_7__angular_core__["v" /* ErrorHandler */], useClass: __WEBPACK_IMPORTED_MODULE_9_ionic_angular__["b" /* IonicErrorHandler */] },
+            __WEBPACK_IMPORTED_MODULE_23__providers_auth_provider__["a" /* AuthProvider */],
+            __WEBPACK_IMPORTED_MODULE_24__providers_user_provider__["a" /* UserProvider */],
+            __WEBPACK_IMPORTED_MODULE_25__providers_load_data_provider__["a" /* LoadDataProvider */],
+            __WEBPACK_IMPORTED_MODULE_28__shared_queue_service__["a" /* QueueService */],
+            __WEBPACK_IMPORTED_MODULE_29__shared_shops_service__["a" /* ShopService */],
+            __WEBPACK_IMPORTED_MODULE_30__shared_user_service__["a" /* UserService */],
             __WEBPACK_IMPORTED_MODULE_0__shared_microservice_service__["a" /* MicroserviceService */]
         ]
     })
@@ -957,72 +951,12 @@ SelectWearsComponent = __decorate([
 
 /***/ }),
 
-/***/ 323:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SelectShopComponent; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-
-var SelectShopComponent = (function () {
-    function SelectShopComponent() {
-    }
-    return SelectShopComponent;
-}());
-SelectShopComponent = __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
-        selector: 'select-shop',
-        template: "<ion-item>\n              <ion-label>Selecciona tienda</ion-label>\n              <ion-select [(ngModel)]=\"shop\">\n                <ion-option value=\"granvia\">Zara Gran V\u00EDa</ion-option>\n                <ion-option value=\"sol\">Zara Sol</ion-option>\n                <ion-option value=\"preciados\">Zara Preciados</ion-option>\n              </ion-select>\n            </ion-item>\n  "
-    })
-], SelectShopComponent);
-
-//# sourceMappingURL=select-shop.component.js.map
-
-/***/ }),
-
-/***/ 324:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return GetTicketComponent; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-
-var GetTicketComponent = (function () {
-    function GetTicketComponent() {
-    }
-    return GetTicketComponent;
-}());
-GetTicketComponent = __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
-        selector: 'get-ticket',
-        template: "\n  "
-    })
-], GetTicketComponent);
-
-//# sourceMappingURL=get-ticket.component.js.map
-
-/***/ }),
-
 /***/ 325:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return WallNextPerson; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__models_user__ = __webpack_require__(455);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__models_user___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__models_user__);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1032,7 +966,6 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-
 
 var WallNextPerson = (function () {
     function WallNextPerson() {
@@ -1045,18 +978,17 @@ __decorate([
 ], WallNextPerson.prototype, "shop", void 0);
 __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Input */])('user'),
-    __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__models_user__["User"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__models_user__["User"]) === "function" && _a || Object)
+    __metadata("design:type", Object)
 ], WallNextPerson.prototype, "user", void 0);
 WallNextPerson = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
         selector: 'wall-next-person',
         encapsulation: __WEBPACK_IMPORTED_MODULE_0__angular_core__["_17" /* ViewEncapsulation */].None,
         styles: ["\n  .header {\n    \n  }\n  .content {\n    \n  }\n  .number {\n    font-size: 25px;\n  }\n  .name {\n    font-size: 25px;    \n  }\n  "],
-        template: "\n  <ion-card>\n    <ion-card-header class=\"header\">\n      {{shop}}\n    </ion-card-header>\n    <ion-card-content class=\"content\">    \n    {{user | json}}\n      <span *ngIf=\"user\" class=\"number\">{{user?.name}}</span> con el n\u00FAmero <span class=\"name\">{{user?.timestamp}}</span> puede acudir a los probadores\n      <span *ngIf=\"!!user\">Los probadores est\u00E1n vacios.</span>\n    </ion-card-content>\n  </ion-card>\n  "
+        template: "\n  <ion-card>\n    <ion-card-header class=\"header\">\n      {{shop}}\n    </ion-card-header>\n    <ion-card-content class=\"content\">    \n    {{user | json}}\n      <span *ngIf=\"user\" class=\"number\">{{user?.name}}</span> con el n\u00FAmero <span class=\"name\">{{user?.timestamp}}</span> puede acudir a los probadores\n      <span *ngIf=\"!user\">Los probadores est\u00E1n vacios</span>\n    </ion-card-content>\n  </ion-card>\n  "
     })
 ], WallNextPerson);
 
-var _a;
 //# sourceMappingURL=wall-next-person.js.map
 
 /***/ }),
@@ -1526,13 +1458,6 @@ var shops = {
 
 /***/ }),
 
-/***/ 455:
-/***/ (function(module, exports) {
-
-//# sourceMappingURL=user.js.map
-
-/***/ }),
-
 /***/ 66:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -1583,10 +1508,7 @@ var QueueService = (function () {
     };
     QueueService.prototype.getNextUser = function (path) {
         return this.afDataBase.list(this.queuesPath + path).valueChanges()
-            .switchMap(function (e) {
-            console.log('e', e);
-            return __WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__["Observable"].of(e[0]);
-        });
+            .switchMap(function (e) { return __WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__["Observable"].of(e[0]); });
     };
     QueueService.prototype.calculateTime = function (queue) {
         return queue
@@ -1626,10 +1548,9 @@ var QueueService = (function () {
 }());
 QueueService = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Injectable */])(),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_angularfire2_database__["a" /* AngularFireDatabase */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_angularfire2_database__["a" /* AngularFireDatabase */]) === "function" && _a || Object])
+    __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_angularfire2_database__["a" /* AngularFireDatabase */]])
 ], QueueService);
 
-var _a;
 //# sourceMappingURL=queue.service.js.map
 
 /***/ }),
