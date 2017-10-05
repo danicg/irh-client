@@ -26,7 +26,7 @@ import { User } from '../models/user';
     <ion-card-content class="content">    
     {{user | json}}
       <span *ngIf="user" class="number">{{user?.name}}</span> con el número <span class="name">{{user?.timestamp}}</span> puede acudir a los probadores
-      <span *ngIf="!user">Los probadores están vacios</span>
+      <span *ngIf="!!user">Los probadores están vacios.</span>
     </ion-card-content>
   </ion-card>
   `

@@ -32,7 +32,10 @@ export class QueueService {
 
   getNextUser(path): any {
     return this.afDataBase.list(this.queuesPath + path).valueChanges()
-      .switchMap((e: ObjQueue[]) => Observable.of(e[0]));
+      .switchMap((e: ObjQueue[]) => {
+        console.log('e', e);
+        return Observable.of(e[0]);
+      });
   }
 
   calculateTime(queue: ObjQueue[]) {
