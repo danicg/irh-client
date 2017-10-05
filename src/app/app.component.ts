@@ -2,10 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { Nav, Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import { Store } from '@ngrx/store';
 
-import * as fromRoot from '../reducers';
-import * as queues from '../actions/queues';
 import { HomePage } from '../pages/home/home';
 import { ListPage } from '../pages/list/list';
 import { AuthProvider } from './../providers/auth.provider';
@@ -32,7 +29,6 @@ export class MyApp {
     public platform: Platform,
     public statusBar: StatusBar,
     public splashScreen: SplashScreen,
-    private store: Store<fromRoot.State>,
     private authProvider: AuthProvider,
     private queueService: QueueService,
     private shopService: ShopService
@@ -41,12 +37,12 @@ export class MyApp {
 
     // used for an example of ngFor and navigation
     this.pages = [
-      { title: 'Home', component: HomePage },
+      { title: 'Panel de tiendas', component: HomePage },
       { title: 'List', component: ListPage },
-      { title: 'UsersList', component: UsersListPage },
+      { title: 'Lista de usuarios', component: UsersListPage },
       { title: 'LoadData', component: LoadDataPage },
-      { title: 'GetTicketAuth', component: GetTicketAuthPage },
-      { title: 'Rooms', component: RoomsPage },
+      { title: 'Reservar turno', component: GetTicketAuthPage },
+      { title: 'App en Tienda', component: RoomsPage },
     ];
 
     // Observable queue

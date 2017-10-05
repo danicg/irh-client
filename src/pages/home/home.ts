@@ -1,9 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
-import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 
-import * as fromRoot from '../../reducers';
 import { ObjQueue } from '../../models/object-queue';
 import { QueueService } from '../../shared/queue.service';
 
@@ -28,7 +26,6 @@ export class HomePage {
 
   constructor(
     public navCtrl: NavController, 
-    private store: Store<fromRoot.State>,
     private shopService: ShopService,    
     private queueService: QueueService
   ) {

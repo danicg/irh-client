@@ -7,7 +7,6 @@ import { ShowQueueComponent, ShowQueueItemComponent } from './../components/show
 
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
-import { StoreModule } from '@ngrx/store';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -17,7 +16,6 @@ import { environment } from '../environments/environment';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 
-import { reducers, metaReducers } from '../reducers';
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
@@ -55,7 +53,6 @@ import { UserService } from '../shared/user.service';
   ],
   imports: [
     BrowserModule,
-    StoreModule.forRoot(reducers, { metaReducers }),
     IonicModule.forRoot(MyApp),
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,

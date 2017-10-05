@@ -3,7 +3,7 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Get ticket Auth</ion-title>
+    <ion-title>Coger turno en probador</ion-title>
   </ion-navbar>
 </ion-header>
 
@@ -25,6 +25,21 @@
       <h5>Numero de prendas: {{selectedWear}}</h5>
       <button (click)="reserve()" ion-button>Reservar</button>
     </div>
+  </div>
+  <div *ngIf="reserved">
+    <ion-card>
+      <ion-card-header class="header">
+        Probador reservado
+      </ion-card-header>
+      <ion-card-content class="content">
+        <p>
+          Has reservado turno en <span class="shop">{{selectedShop.name}}</span>
+        </p>
+        <p>
+          Tu número es: <span class="number">{{objQueue.timestamp}}</span>
+        </p>
+      </ion-card-content>
+    </ion-card>
   </div>
 
 </ion-content>
