@@ -12,7 +12,7 @@
   <select-wears></select-wears>
   <get-ticket></get-ticket>
   <show-queue>
-      <show-queue-item *ngFor="let user of queue$ | async ; let i = index" [ticket]="item.timestamp" [userId]="item.userId">
+      <show-queue-item *ngFor="let user of queue$ | async ; let i = index" [ticket]="user.timestamp" [userId]="user.userId">
       </show-queue-item>
   </show-queue>
 </ion-content>
