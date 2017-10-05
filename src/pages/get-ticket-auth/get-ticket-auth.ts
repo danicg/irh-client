@@ -49,7 +49,7 @@ export class GetTicketAuthPage {
       wearCount: this.selectedWear,
       wearAvg: !this.userService.user.wearAvg ? this.selectedShop.wearAvg : this.userService.user.wearAvg
     }
-    this.reserved = true;
+    //this.reserved = true;
     this.afDataBase.database.ref(`/queues`).child(this.selectedShop.id).push(objQueue);
   }
 

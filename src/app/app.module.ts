@@ -2,8 +2,6 @@ import { MicroserviceService } from './../shared/microservice.service';
 import { HttpClientModule } from '@angular/common/http';
 import { ShowRoomComponent, ShowRoomItemComponent } from './../components/show-room.component';
 import { SelectWearsComponent } from './../components/select-wears.component';
-import { SelectShopComponent } from './../components/select-shop.component';
-import { GetTicketComponent } from './../components/get-ticket.component';
 import { WallNextPerson } from './../components/wall-next-person';
 import { ShowQueueComponent, ShowQueueItemComponent } from './../components/show-queue.component';
 
@@ -47,9 +45,7 @@ import { UserService } from '../shared/user.service';
     UsersListPage,
     LoadDataPage,
     GetTicketAuthPage,
-    SelectShopComponent,
     SelectWearsComponent,
-    GetTicketComponent,
     ShowQueueComponent,    
     ShowRoomComponent,
     ShowRoomItemComponent,

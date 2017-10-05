@@ -12,7 +12,7 @@ import { User } from '../models/user';
     
   }
   .number {
-    font-size: 25px;
+    font-size: 35px;
   }
   .name {
     font-size: 25px;    
@@ -23,10 +23,9 @@ import { User } from '../models/user';
     <ion-card-header class="header">
       {{shop}}
     </ion-card-header>
-    <ion-card-content class="content">    
-    {{user | json}}
-      <span *ngIf="user" class="number">{{user?.name}}</span> con el número <span class="name">{{user?.timestamp}}</span> puede acudir a los probadores
-      <span *ngIf="!!user">Los probadores están vacios.</span>
+    <ion-card-content class="content">
+      <span *ngIf="user" class="number">{{user?.timestamp}}</span> es tu turno en los probadores durante: 02:00min.
+      <span *ngIf="!user">Los probadores están vacios.</span>
     </ion-card-content>
   </ion-card>
   `
