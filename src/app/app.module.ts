@@ -2,6 +2,7 @@ import { SelectWearsComponent } from './../components/select-wears.component';
 import { SelectShopComponent } from './../components/select-shop.component';
 import { GetTicketComponent } from './../components/get-ticket.component';
 import { ShowQueueComponent } from './../components/show-queue.component';
+
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { StoreModule } from '@ngrx/store';
@@ -26,6 +27,10 @@ import { AuthProvider } from './../providers/auth.provider';
 import { UserProvider } from './../providers/user.provider';
 import { LoadDataProvider } from './../providers/load-data.provider';
 import { GetTicketAuthPage } from './../pages/get-ticket-auth/get-ticket-auth';
+
+import { QueueService } from '../shared/queue.service';
+import { ShopService } from '../shared/shops.service';
+
 
 @NgModule({
   declarations: [
@@ -65,7 +70,9 @@ import { GetTicketAuthPage } from './../pages/get-ticket-auth/get-ticket-auth';
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     AuthProvider,
     UserProvider,
-    LoadDataProvider
+    LoadDataProvider,
+    QueueService,
+    ShopService
   ]
 })
 export class AppModule {}

@@ -20,14 +20,14 @@ import { storeFreeze } from 'ngrx-store-freeze';
  * notation packages up all of the exports into a single object.
  */
 
-import * as fromCategories from './categories';
+import * as fromQueue from './queue';
 
 /**
  * As mentioned, we treat each reducer like a table in a database. This means
  * our top level state interface is just a map of keys to inner state types.
  */
 export interface State {
-  categories: fromCategories.State;
+  queue: fromQueue.State;
 }
 
 /**
@@ -36,7 +36,7 @@ export interface State {
  * and the current or initial state and return a new immutable state.
  */
 export const reducers: ActionReducerMap<State> = {
-  categories: fromCategories.reducer
+  queue: fromQueue.reducer
 };
 
 // console.log all actions
@@ -58,5 +58,5 @@ export const metaReducers: MetaReducer<State>[] = [logger, storeFreeze];
 /**
  * Layout Selectors
  */
-export const getCategoriesState = createFeatureSelector<fromCategories.State>('categories');
-export const getCategories = createSelector(getCategoriesState, fromCategories.getCategories);
+export const getQueueState = createFeatureSelector<fromQueue.State>('queue');
+export const getQueue = createSelector(getQueueState, fromQueue.getQueues);
