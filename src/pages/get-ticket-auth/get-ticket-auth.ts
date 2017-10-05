@@ -4,7 +4,6 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 
 import * as fromRoot from '../../reducers';
-import { Category } from '../../models/category';
 
 @Component({
   selector: 'get-ticket-auth',

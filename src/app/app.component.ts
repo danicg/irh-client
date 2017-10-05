@@ -34,7 +34,7 @@ export class MyApp {
     private store: Store<fromRoot.State>,
     private authProvider: AuthProvider,
     private queueService: QueueService,
-    private shopService: QueueService
+    private shopService: ShopService
   ) {
     this.initializeApp();
 
@@ -50,13 +50,13 @@ export class MyApp {
     // Observable queue
     this.queueService.listenQueue()
       .subscribe(e => {
-        console.log(e);
+        console.log('queue',e);
       });
 
-    // Observable queue
-    this.queueService.listenQueue()
+    // Observable shops
+    this.shopService.listenShops()
       .subscribe(e => {
-        console.log(e);
+        console.log('shops',e);
       });
 
   }

@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { ObjQueue } from '../models/queue';
+import { ObjQueue } from '../models/object-queue';
 
 export const UPDATE = '[Queues] Update';
 export const ASK_TURN = '[Queues] Ask Turn';

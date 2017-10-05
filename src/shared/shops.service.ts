@@ -9,7 +9,7 @@ import { AngularFireDatabase } from 'angularfire2/database'
 @Injectable()
 export class ShopService {
 
-  shopsPath: string = '/queues';
+  shopsPath: string = '/shops';
 
   constructor(private afDataBase: AngularFireDatabase) { }
 

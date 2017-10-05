@@ -1,4 +1,5 @@
 export interface Shop {
+  id: string;
   geolocation?: any;
   name?: string;
   probadores?: any[]
