@@ -33,6 +33,7 @@ import { RoomsPage } from './../pages/rooms/rooms';
 
 import { QueueService } from '../shared/queue.service';
 import { ShopService } from '../shared/shops.service';
+import { UserService } from '../shared/user.service';
 
 
 @NgModule({
@@ -81,7 +82,8 @@ import { ShopService } from '../shared/shops.service';
     LoadDataProvider,
     QueueService,
     ShopService,
-    Http
+    Http,
+    UserService
   ]
 })
 export class AppModule {}

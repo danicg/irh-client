@@ -23,20 +23,17 @@ export class QueueService {
     return this.afDataBase.list(this.queuesPath + path).valueChanges()
       .switchMap((e: ObjQueue[]) => {
         return Observable.of(this.formatTime(this.calculateTime(e)));
-      });
+      });  
   }
 
   listenQueue(path): Observable<ObjQueue[]> {
     return this.afDataBase.list(this.queuesPath + path).valueChanges();
   }
 
-  getNextUser(path) {
+  getNextUser(path): any {
     return this.afDataBase.list(this.queuesPath + path).valueChanges()      
-      .switchMap((e: ObjQueue[]) => {
-        if(e) {
-          return Observable.of(e[0]);
-        }
-        return Observable.of('Error pringao');
+      .switchMap((e: ObjQueue[]) => {      
+          return Observable.of(e[0]);        
       });
   }
 

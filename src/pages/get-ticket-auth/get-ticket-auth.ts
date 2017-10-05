@@ -6,21 +6,57 @@ import { Component, OnInit } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
+import { AngularFireDatabase } from 'angularfire2/database'
 
+
+import { ShopService } from '../../shared/shops.service';
+import { Shop } from '../../models/shop';
 import * as fromRoot from '../../reducers';
 
 @Component({
   selector: 'get-ticket-auth',
-  templateUrl: 'get-ticket-auth.html'
+  templateUrl: 'get-ticket-auth.html',
+  styles: [`
+    .box-rsvp {
+      margin: 30px;
+    }
+  `]
 })
 export class GetTicketAuthPage implements OnInit {
+  shops$: Observable<Shop[]>;
+  selectedShop: Shop;
+  selectedWear: number;
+  reserved: false;
 
-  queue$: Observable<ObjQueue[]>
-  rooms$: Observable<{}>
-  constructor(public navCtrl: NavController, private store: Store<fromRoot.State>, private queueService: QueueService, private shopService: ShopService) { }
+  constructor(
+    public navCtrl: NavController,
+    private store: Store<fromRoot.State>,
+    private shopService: ShopService,
+    private afDataBase: AngularFireDatabase,
+    private queueService: QueueService) {
+
+    this.shops$ = this.shopService.listenShop();
+  }
 
   ngOnInit() {
-    this.rooms$ = this.shopService.listenShop('granvia/rooms');
+
   }
+
+  selectShop(shop) {
+    this.selectedShop = shop;
+  }
+
+  reserve() {
+    const objQueue: ObjQueue = {
+      userId: "omgjuasqmelol",
+      name: "andyrules putes",
+      timestamp: new Date().getTime(),
+      wearCount: this.selectedWear,
+      wearAvg: 150000
+    }
+
+    this.afDataBase.database.ref(`/queues`).child(this.selectedShop.id).push(objQueue);
+  }
+
 
 }

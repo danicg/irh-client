@@ -56,7 +56,7 @@ export class MyApp {
       });
 
     // Observable shops
-    this.shopService.listenShops()
+    this.shopService.listenShop()
       .subscribe(e => {
         console.log('shops',e);
       });
