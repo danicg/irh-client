@@ -15,7 +15,7 @@ export const ASK_TURN = '[Queues] Ask Turn';
 export class Update implements Action {
   readonly type = UPDATE;
 
-  constructor(public payload: Queue[]) {}
+  constructor(public payload: ObjQueue[]) {}
 }
 
 /**
