@@ -50,7 +50,7 @@ export class MyApp {
     ];
 
     // Observable queue
-    this.queueService.listenQueue()
+    this.queueService.listenQueue('/granvia')
       .subscribe(e => {
         console.log('queue',e);
       });
