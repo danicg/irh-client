@@ -24,7 +24,7 @@ import { ShopService } from '../shared/shops.service';
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage: any = RoomsPage;
+  rootPage: any = LoginPage;
 
   pages: Array<{title: string, component: any}>;
 

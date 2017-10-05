@@ -14,6 +14,7 @@ import { Observable } from 'rxjs/Observable';
   styles: [`
     .container-bussines{
       display: flex;
+      flex-direction: row;
     }
   `]
 })
@@ -23,7 +24,9 @@ export class RoomsPage implements OnInit {
   queue$: Observable<ObjQueue[]>
   rooms$: Observable<{}>
   shops$: Observable<{}>
-  constructor(public navCtrl: NavController, private queueService: QueueService, private shopService: ShopService, private micoservice: MicroserviceService) { }
+  queueTime$: Observable<{}>
+  modifyWears: number = null;
+  constructor(public navCtrl: NavController, private queueService: QueueService, private shopService: ShopService, private microservice: MicroserviceService) { }
 
   ngOnInit() {
     this.shops$ = this.shopService.listenShop();
@@ -31,11 +34,16 @@ export class RoomsPage implements OnInit {
 
   updateRoom(roomId, occupied) {
     if(!occupied) {
-      this.queueService.popUser('/granvia').then( user => {
-        this.micoservice.occupateRoom('granvia',roomId,user).subscribe(e=>console.log(e));
+      this.queueService.popUser(`/${this.selectedShop}`).then( user => {
+        if(this.modifyWears) {
+          user.wearCount = this.modifyWears;
+        }
+        this.microservice.occupateRoom(`${this.selectedShop}`, roomId, user).subscribe(
+          e => this.modifyWears = null
+        );
       });
     } else {
-      this.micoservice.desoccupateRoom('granvia',roomId).subscribe(e=>console.log(e));
+      this.microservice.desoccupateRoom(`${this.selectedShop}`,roomId).subscribe();
     }
 
   }
@@ -44,6 +52,11 @@ export class RoomsPage implements OnInit {
     this.selectedShop = shop;
     this.queue$ = this.queueService.listenQueue(`/${this.selectedShop}`);
     this.rooms$ = this.shopService.listenShop(`/${this.selectedShop}/rooms`);
+    this.queueTime$ = this.queueService.getTimeEstimatedQueue(`/${this.selectedShop}`);
+  }
+
+  updateQueue($event) {
+    this.modifyWears = $event;
   }
 
 }

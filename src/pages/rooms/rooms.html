@@ -15,12 +15,19 @@
       </div>
     </div>
     <div class="container-bussines">
-      <show-queue>
-          <show-queue-item *ngFor="let user of queue$ | async ; let i = index" [ticket]="user.timestamp" [userId]="user.userId">
-          </show-queue-item>
+      <show-queue [length]="(queue$ | async)?.length" [time]="(queueTime$ | async)">
+        <ion-list>
+          <ion-item *ngFor="let user of queue$ | async ; let i = index">
+            <ion-icon name="person" item-start></ion-icon>
+            Turno: {{user.turn}}
+            <br>
+            Nº prendas: {{user.wearCount}}
+            <select-wears (numWear)="modifyWears = $event;"></select-wears>
+          </ion-item>
+        </ion-list>
       </show-queue>
       <show-room>
-        <show-room-item *ngFor="let room of rooms$ | async; let i = index" [roomId]="room.id" [occupied]="room.occupied" (click)="updateRoom(room.id, room.occupied)">
+        <show-room-item *ngFor="let room of rooms$ | async; let i = index" [roomId]="room.id" [occupied]="room.occupied" [turn]="room.user?.turn" [wearCount]="room.user?.wearCount" (click)="updateRoom(room.id, room.occupied)">
         </show-room-item>
       </show-room>
     </div>
