@@ -20,7 +20,7 @@ export class HomePage {
     private store: Store<fromRoot.State>,
     private queueService: QueueService
   ) {
-    this.queue$ = this.store.select(fromRoot.getQueue);
+    this.queue$ = this.queueService.listenQueue();
     this.queue$.subscribe(e => console.log(e));
     this.timeEstimated$ = this.queueService.getTimeEstimatedAllQueue();
   }

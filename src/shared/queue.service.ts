@@ -25,19 +25,13 @@ export class QueueService {
       });
   }
 
-  listenQueue() {
+  listenQueue(): Observable<ObjQueue[]> {
     return this.afDataBase.list(this.queuesPath).valueChanges();
   }
 
   calculateTime(queue: ObjQueue[]) {
     return queue
-      .reduce((acum, e) => {
-
-
-
-
-        return e.wearAvg * e.wearCount + acum;
-      }, 0);
+      .reduce((acum, e) => e.wearAvg * e.wearCount + acum, 0);
   }
 
   formatTime(s: number) {

@@ -13,10 +13,9 @@ export class ShopService {
 
   constructor(private afDataBase: AngularFireDatabase) { }
 
-  listenShops() {
-    return this.afDataBase.list(this.shopsPath).valueChanges();
+  listenShops() {    
+    return this.afDataBase.object(this.shopsPath).valueChanges();
   }
-
 
 }
 
