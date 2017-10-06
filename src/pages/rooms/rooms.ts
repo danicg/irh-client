@@ -74,7 +74,7 @@ export class RoomsPage implements OnInit {
     this.queueTime$ = this.queueService.getTimeEstimatedQueue(`/${this.selectedShop}`);
     console.log('Obvserva a tu madre', this.rooms$);
     this.rooms$
-      .subscribe( rooms => rooms.filter( room => !room.occupied ).slice(-1).map(this.setTimer.bind(this)))
+      .subscribe( (rooms: Array<any>) => rooms.filter( room => !room.occupied ).slice(-1).map(this.setTimer.bind(this)))
   }
 
   setTimer(){
