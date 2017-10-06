@@ -1,5 +1,4 @@
 import { Injectable, NgZone } from '@angular/core';
-import { Store } from '@ngrx/store';
 import { AngularFireDatabase } from 'angularfire2/database'
 import { Observable } from 'rxjs/Observable';
 

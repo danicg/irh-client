@@ -2,10 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { Nav, Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import { Store } from '@ngrx/store';
 
-import * as fromRoot from '../reducers';
-import * as queues from '../actions/queues';
 import { HomePage } from '../pages/home/home';
 import { ListPage } from '../pages/list/list';
 import { AuthProvider } from './../providers/auth.provider';
@@ -14,6 +11,7 @@ import { UsersListPage } from '../pages/usersList/usersList';
 import { LoadDataPage } from '../pages/load-data/load-data';
 import { GetTicketAuthPage } from '../pages/get-ticket-auth/get-ticket-auth';
 import { RoomsPage } from '../pages/rooms/rooms';
+import { UserProfile } from '../pages/user-profile/user-profile';
 
 import { QueueService } from '../shared/queue.service';
 import { ShopService } from '../shared/shops.service';
@@ -32,7 +30,6 @@ export class MyApp {
     public platform: Platform,
     public statusBar: StatusBar,
     public splashScreen: SplashScreen,
-    private store: Store<fromRoot.State>,
     private authProvider: AuthProvider,
     private queueService: QueueService,
     private shopService: ShopService
@@ -41,17 +38,17 @@ export class MyApp {
 
     // used for an example of ngFor and navigation
     this.pages = [
-      { title: 'Home', component: HomePage },
-      { title: 'List', component: ListPage },
-      { title: 'UsersList', component: UsersListPage },
-      { title: 'LoadData', component: LoadDataPage },
-      { title: 'GetTicketAuth', component: GetTicketAuthPage },
-      { title: 'Rooms', component: RoomsPage },
+      { title: 'Panel de tiendas', component: HomePage },
+      { title: 'Lista de usuarios', component: UsersListPage },
+      //{ title: 'LoadData', component: LoadDataPage },
+      { title: 'Reservar probador', component: GetTicketAuthPage },
+      { title: 'App control', component: RoomsPage },
+      { title: 'Tu reserva', component: UserProfile },
     ];
 
     // Observable queue
     this.queueService.listenQueue('/granvia')
-      .subscribe(e => {
+      .subscribe(e => {  
         console.log('queue',e);
       });
 

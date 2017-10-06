@@ -3,20 +3,25 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Tiempo estimado {{ timeEstimated$ | async }}</ion-title>
+    <ion-title>Tablones de siguiente en tiendas</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  <h3>Siguiente turno: </h3>
 
-  <p>
-    {{ (nextUser$ | async) | json}}
-  </p>
+  <wall-next-person
+    nameShop="Zara Gran Vía:"
+    [user]="nextUserGranVia$ | async">
+  </wall-next-person>
 
-  <ul>
-    <li *ngFor="let category of (categories$ | async)"> {{ category.name }}</li>
-  </ul>
+  <wall-next-person
+    nameShop="Zara Preciados:"
+    [user]="nextUserPreciados$ | async">
+  </wall-next-person>
 
-  <button ion-button secondary menuToggle>Toggle Menu</button>
+  <wall-next-person
+    nameShop="Zara Sol:"
+    [user]="nextUserSol$ | async">
+  </wall-next-person>
+
 </ion-content>
