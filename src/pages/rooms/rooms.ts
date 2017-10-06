@@ -48,12 +48,6 @@ export class RoomsPage implements OnInit {
       });
     } else {
       this.microservice.desoccupateRoom(`${this.selectedShop}`,roomId).subscribe();
-
-      //this.timer$.subscribe(e => this.queueService.popUser(`/${this.selectedShop}`).then());
-      /*this.shopService.listenShop(`/${this.selectedShop}/rooms`)
-      .filter(room => !room.occupied)
-      .timer(1000).
-      subscribe(e => this.microservice.desoccupateRoom(`${this.selectedShop}`,roomId).subscribe())*/
     }
 
   }
@@ -63,14 +57,7 @@ export class RoomsPage implements OnInit {
     this.queue$ = this.queueService.listenQueue(`/${this.selectedShop}`);
     this.rooms$ = this.shopService.listenShop(`/${this.selectedShop}/rooms`);
     this.queueTime$ = this.queueService.getTimeEstimatedQueue(`/${this.selectedShop}`);
-    /*const start = 30;
-    this.timer$ = this.shopService.listenShop(`/${this.selectedShop}/rooms`)
-      .filter(room => room && !room.occupied)
-      .switchMap(e => Observable.timer(1000,1000))
-      .map(i => start - i)
-      .take(start + 1);
 
-    this.timer = this.timer$.subscribe(e => console.log('aaaaa'));*/
   }
 
   updateQueue($event) {
