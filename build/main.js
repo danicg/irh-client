@@ -8,7 +8,7 @@ webpackJsonp([0],{
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_add_operator_map__ = __webpack_require__(42);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_add_operator_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_rxjs_add_operator_map__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_angularfire2_auth__ = __webpack_require__(286);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_angularfire2_auth__ = __webpack_require__(287);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -115,8 +115,8 @@ UserProvider = __decorate([
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ionic_angular__ = __webpack_require__(27);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_angularfire2_database__ = __webpack_require__(34);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__shared_shops_service__ = __webpack_require__(65);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__shared_user_service__ = __webpack_require__(84);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__shared_reserve_service__ = __webpack_require__(293);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__shared_user_service__ = __webpack_require__(66);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__shared_reserve_service__ = __webpack_require__(147);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -144,6 +144,15 @@ var GetTicketAuthPage = (function () {
         this.reserved = false;
         this.shops$ = this.shopService.listenShop();
     }
+    GetTicketAuthPage.prototype.ngOnInit = function () {
+        if (this.reserveService.reserved) {
+            this.reserved = true;
+            this.selectedShop = this.reserveService.getReserve().shop;
+            this.objQueue = {
+                timestamp: this.reserveService.getReserve().number
+            };
+        }
+    };
     GetTicketAuthPage.prototype.selectShop = function (shop) {
         this.selectedShop = shop;
     };
@@ -155,12 +164,12 @@ var GetTicketAuthPage = (function () {
             wearCount: this.selectedWear,
             wearAvg: !this.userService.user.wearAvg ? this.selectedShop.wearAvg : this.userService.user.wearAvg
         };
-        this.reserved = true;
         this.reserveService.setReserve({
             shop: this.selectedShop,
             number: this.objQueue.timestamp
         });
         this.afDataBase.database.ref("/queues").child(this.selectedShop.id).push(this.objQueue);
+        this.reserved = true;
     };
     return GetTicketAuthPage;
 }());
@@ -181,7 +190,72 @@ GetTicketAuthPage = __decorate([
 
 /***/ }),
 
-/***/ 155:
+/***/ 147:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ReserveService; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_angularfire2_database__ = __webpack_require__(34);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_filter__ = __webpack_require__(443);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_filter___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_filter__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__shared_queue_service__ = __webpack_require__(52);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__shared_user_service__ = __webpack_require__(66);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+var ReserveService = (function () {
+    function ReserveService(afDataBase, userService, queueService) {
+        this.afDataBase = afDataBase;
+        this.userService = userService;
+        this.queueService = queueService;
+        this.reserved = false;
+    }
+    ReserveService.prototype.setReserve = function (reserve) {
+        if (!this.reserved) {
+            this.reserved = true;
+            this.reserve = reserve;
+            this.listenShopChanges(reserve.shop.id);
+        }
+    };
+    ReserveService.prototype.listenShopChanges = function (path) {
+        var _this = this;
+        this.queueService.listenQueue("/" + path)
+            .filter(function (e) {
+            return !!!e.find(function (obj) { return obj.userId === _this.userService.user.uid; });
+        })
+            .subscribe(function (e) {
+            _this.reserved = false;
+        });
+    };
+    ReserveService.prototype.getReserve = function () {
+        return this.reserve;
+    };
+    return ReserveService;
+}());
+ReserveService = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Injectable */])(),
+    __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_angularfire2_database__["a" /* AngularFireDatabase */],
+        __WEBPACK_IMPORTED_MODULE_4__shared_user_service__["a" /* UserService */],
+        __WEBPACK_IMPORTED_MODULE_3__shared_queue_service__["a" /* QueueService */]])
+], ReserveService);
+
+//# sourceMappingURL=reserve.service.js.map
+
+/***/ }),
+
+/***/ 156:
 /***/ (function(module, exports) {
 
 function webpackEmptyAsyncContext(req) {
@@ -194,17 +268,17 @@ function webpackEmptyAsyncContext(req) {
 webpackEmptyAsyncContext.keys = function() { return []; };
 webpackEmptyAsyncContext.resolve = webpackEmptyAsyncContext;
 module.exports = webpackEmptyAsyncContext;
-webpackEmptyAsyncContext.id = 155;
+webpackEmptyAsyncContext.id = 156;
 
 /***/ }),
 
-/***/ 156:
+/***/ 157:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MicroserviceService; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common_http__ = __webpack_require__(157);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common_http__ = __webpack_require__(158);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -222,6 +296,7 @@ var MicroserviceService = (function () {
         this.path = 'http://h2729551.stratoserver.net:9090';
     }
     MicroserviceService.prototype.occupateRoom = function (shopId, roomId, userPayload) {
+        delete userPayload['turn'];
         return this._http.post(this.path + "/" + shopId + "/" + roomId, { user: userPayload });
     };
     MicroserviceService.prototype.desoccupateRoom = function (shopId, roomId) {
@@ -238,7 +313,7 @@ MicroserviceService = __decorate([
 
 /***/ }),
 
-/***/ 200:
+/***/ 201:
 /***/ (function(module, exports) {
 
 function webpackEmptyAsyncContext(req) {
@@ -251,11 +326,11 @@ function webpackEmptyAsyncContext(req) {
 webpackEmptyAsyncContext.keys = function() { return []; };
 webpackEmptyAsyncContext.resolve = webpackEmptyAsyncContext;
 module.exports = webpackEmptyAsyncContext;
-webpackEmptyAsyncContext.id = 200;
+webpackEmptyAsyncContext.id = 201;
 
 /***/ }),
 
-/***/ 289:
+/***/ 290:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -302,62 +377,6 @@ HomePage = __decorate([
 
 /***/ }),
 
-/***/ 291:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ListPage; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(27);
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-var ListPage = ListPage_1 = (function () {
-    function ListPage(navCtrl, navParams) {
-        this.navCtrl = navCtrl;
-        this.navParams = navParams;
-        // If we navigated to this page, we will have an item available as a nav param
-        this.selectedItem = navParams.get('item');
-        // Let's populate this page with some filler content for funzies
-        this.icons = ['flask', 'wifi', 'beer', 'football', 'basketball', 'paper-plane',
-            'american-football', 'boat', 'bluetooth', 'build'];
-        this.items = [];
-        for (var i = 1; i < 11; i++) {
-            this.items.push({
-                title: 'Item ' + i,
-                note: 'This is item #' + i,
-                icon: this.icons[Math.floor(Math.random() * this.icons.length)]
-            });
-        }
-    }
-    ListPage.prototype.itemTapped = function (event, item) {
-        // That's right, we're pushing to ourselves!
-        this.navCtrl.push(ListPage_1, {
-            item: item
-        });
-    };
-    return ListPage;
-}());
-ListPage = ListPage_1 = __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
-        selector: 'page-list',template:/*ion-inline-start:"C:\Users\andy\workspace\hackathon\irh-client\src\pages\list\list.html"*/'<ion-header>\n\n  <ion-navbar>\n\n    <button ion-button menuToggle>\n\n      <ion-icon name="menu"></ion-icon>\n\n    </button>\n\n    <ion-title>List</ion-title>\n\n  </ion-navbar>\n\n</ion-header>\n\n\n\n<ion-content>\n\n  <ion-list>\n\n    <button ion-item *ngFor="let item of items" (click)="itemTapped($event, item)">\n\n      <ion-icon [name]="item.icon" item-start></ion-icon>\n\n      {{item.title}}\n\n      <div class="item-note" item-end>\n\n        {{item.note}}\n\n      </div>\n\n    </button>\n\n  </ion-list>\n\n  <div *ngIf="selectedItem" padding>\n\n    You navigated here from <b>{{selectedItem.title}}</b>\n\n  </div>\n\n</ion-content>\n\n'/*ion-inline-end:"C:\Users\andy\workspace\hackathon\irh-client\src\pages\list\list.html"*/
-    }),
-    __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* NavParams */]])
-], ListPage);
-
-var ListPage_1;
-//# sourceMappingURL=list.js.map
-
-/***/ }),
-
 /***/ 292:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -367,7 +386,7 @@ var ListPage_1;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(27);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_auth_provider__ = __webpack_require__(144);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_user_provider__ = __webpack_require__(145);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__shared_user_service__ = __webpack_require__(84);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__shared_user_service__ = __webpack_require__(66);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__get_ticket_auth_get_ticket_auth__ = __webpack_require__(146);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -442,72 +461,6 @@ LoginPage = __decorate([
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ReserveService; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_angularfire2_database__ = __webpack_require__(34);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_filter__ = __webpack_require__(442);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_filter___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_filter__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__shared_queue_service__ = __webpack_require__(52);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__shared_user_service__ = __webpack_require__(84);
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-
-
-
-var ReserveService = (function () {
-    function ReserveService(afDataBase, userService, queueService) {
-        this.afDataBase = afDataBase;
-        this.userService = userService;
-        this.queueService = queueService;
-        this.reserved = false;
-    }
-    ReserveService.prototype.setReserve = function (reserve) {
-        if (this.reserved) {
-            this.reserved = true;
-            this.reserve = reserve;
-            this.listenShopChanges(reserve.shop.id);
-        }
-    };
-    ReserveService.prototype.listenShopChanges = function (path) {
-        var _this = this;
-        this.queueService.listenQueue(path)
-            .filter(function (e) {
-            return !!!e.find(function (obj) { return obj.userId === _this.userService.user.uid; });
-        })
-            .subscribe(function (e) {
-            console.log('reserves', e);
-            _this.reserved = false;
-        });
-    };
-    ReserveService.prototype.getReserve = function () {
-        return this.reserve;
-    };
-    return ReserveService;
-}());
-ReserveService = __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Injectable */])(),
-    __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_angularfire2_database__["a" /* AngularFireDatabase */],
-        __WEBPACK_IMPORTED_MODULE_4__shared_user_service__["a" /* UserService */],
-        __WEBPACK_IMPORTED_MODULE_3__shared_queue_service__["a" /* QueueService */]])
-], ReserveService);
-
-//# sourceMappingURL=reserve.service.js.map
-
-/***/ }),
-
-/***/ 294:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return UsersListPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(27);
@@ -544,14 +497,16 @@ UsersListPage = __decorate([
 
 /***/ }),
 
-/***/ 295:
+/***/ 294:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return LoadDataPage; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(27);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_load_data_provider__ = __webpack_require__(296);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return RoomsPage; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__shared_microservice_service__ = __webpack_require__(157);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__shared_shops_service__ = __webpack_require__(65);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__shared_queue_service__ = __webpack_require__(52);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_ionic_angular__ = __webpack_require__(27);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -564,28 +519,100 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-var LoadDataPage = (function () {
-    function LoadDataPage(navCtrl, navParams, loadDataProvider) {
-        this.navCtrl = navCtrl;
-        this.navParams = navParams;
-        this.loadDataProvider = loadDataProvider;
-    }
-    LoadDataPage.prototype.loadShops = function () {
-        this.loadDataProvider.createShops();
-    };
-    LoadDataPage.prototype.loadQueues = function () {
-        this.loadDataProvider.createQueues();
-    };
-    return LoadDataPage;
-}());
-LoadDataPage = __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
-        selector: 'load-data',template:/*ion-inline-start:"C:\Users\andy\workspace\hackathon\irh-client\src\pages\load-data\load-data.html"*/'<ion-header>\n\n  <ion-navbar>\n\n    <button ion-button menuToggle>\n\n      <ion-icon name="menu"></ion-icon>\n\n    </button>\n\n    <ion-title>User List</ion-title>\n\n  </ion-navbar>\n\n</ion-header>\n\n\n\n<ion-content>\n\n  <ion-list>\n\n    <button (click)="loadShops()">\n\n      Load Shops\n\n    </button>\n\n    <button (click)="loadQueues()">\n\n      Load Queues\n\n    </button>\n\n  </ion-list>\n\n\n\n</ion-content>\n\n'/*ion-inline-end:"C:\Users\andy\workspace\hackathon\irh-client\src\pages\load-data\load-data.html"*/
-    }),
-    __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* NavParams */], __WEBPACK_IMPORTED_MODULE_2__providers_load_data_provider__["a" /* LoadDataProvider */]])
-], LoadDataPage);
 
-//# sourceMappingURL=load-data.js.map
+
+var RoomsPage = (function () {
+    function RoomsPage(navCtrl, queueService, shopService, microservice) {
+        this.navCtrl = navCtrl;
+        this.queueService = queueService;
+        this.shopService = shopService;
+        this.microservice = microservice;
+        this.modifyWears = null;
+    }
+    RoomsPage.prototype.ngOnInit = function () {
+        this.shops$ = this.shopService.listenShop();
+    };
+    RoomsPage.prototype.updateRoom = function (roomId, occupied) {
+        var _this = this;
+        if (!occupied) {
+            this.queueService.popUser("/" + this.selectedShop).then(function (user) {
+                if (_this.modifyWears) {
+                    user.wearCount = _this.modifyWears;
+                }
+                _this.microservice.occupateRoom("" + _this.selectedShop, roomId, user).subscribe(function (e) { return _this.modifyWears = null; });
+            });
+        }
+        else {
+            this.microservice.desoccupateRoom("" + this.selectedShop, roomId).subscribe();
+        }
+    };
+    RoomsPage.prototype.selectShop = function (shop) {
+        this.selectedShop = shop;
+        this.queue$ = this.queueService.listenQueue("/" + this.selectedShop);
+        this.rooms$ = this.shopService.listenShop("/" + this.selectedShop + "/rooms");
+        this.queueTime$ = this.queueService.getTimeEstimatedQueue("/" + this.selectedShop);
+    };
+    RoomsPage.prototype.updateQueue = function ($event) {
+        this.modifyWears = $event;
+    };
+    return RoomsPage;
+}());
+RoomsPage = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_3__angular_core__["n" /* Component */])({
+        selector: 'rooms',template:/*ion-inline-start:"C:\Users\andy\workspace\hackathon\irh-client\src\pages\rooms\rooms.html"*/'<ion-header>\n\n    <ion-navbar>\n\n      <button ion-button menuToggle>\n\n        <ion-icon name="menu"></ion-icon>\n\n      </button>\n\n      <ion-title>Rooms</ion-title>\n\n    </ion-navbar>\n\n  </ion-header>\n\n\n\n  <ion-content padding>\n\n    <div>\n\n      <div (click)="selectShop(shop.id)" *ngFor="let shop of shops$ | async; let i = index">\n\n        <h4>{{shop.name}}</h4>\n\n        Tiempo de espera aprox en probadores: XX:XX\n\n      </div>\n\n    </div>\n\n    <div class="container-bussines">\n\n      <show-queue [length]="(queue$ | async)?.length" [time]="(queueTime$ | async)">\n\n        <ion-list>\n\n          <ion-item *ngFor="let user of queue$ | async ; let i = index">\n\n            <ion-icon name="person" item-start></ion-icon>\n\n            Turno: {{user.turn}}\n\n            <br>\n\n            Nº prendas: {{user.wearCount}}\n\n            <select-wears (numWear)="modifyWears = $event;"></select-wears>\n\n          </ion-item>\n\n        </ion-list>\n\n      </show-queue>\n\n      <show-room>\n\n        <show-room-item *ngFor="let room of rooms$ | async; let i = index" [roomId]="room.id" [occupied]="room.occupied" [turn]="room.user?.turn" [wearCount]="room.user?.wearCount" (click)="updateRoom(room.id, room.occupied)">\n\n        </show-room-item>\n\n      </show-room>\n\n    </div>\n\n  </ion-content>\n\n'/*ion-inline-end:"C:\Users\andy\workspace\hackathon\irh-client\src\pages\rooms\rooms.html"*/,
+        styles: ["\n    .container-bussines{\n      display: flex;\n      flex-direction: row;\n    }\n  "]
+    }),
+    __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_4_ionic_angular__["e" /* NavController */], __WEBPACK_IMPORTED_MODULE_2__shared_queue_service__["a" /* QueueService */], __WEBPACK_IMPORTED_MODULE_1__shared_shops_service__["a" /* ShopService */], __WEBPACK_IMPORTED_MODULE_0__shared_microservice_service__["a" /* MicroserviceService */]])
+], RoomsPage);
+
+//# sourceMappingURL=rooms.js.map
+
+/***/ }),
+
+/***/ 295:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return UserProfile; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__shared_user_service__ = __webpack_require__(66);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__shared_reserve_service__ = __webpack_require__(147);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+var UserProfile = (function () {
+    function UserProfile(userService, reserveService) {
+        this.userService = userService;
+        this.reserveService = reserveService;
+        this.user = this.userService.user;
+    }
+    UserProfile.prototype.ngOnInit = function () {
+        if (this.reserveService.reserved) {
+            this.reserve = this.reserveService.getReserve();
+        }
+    };
+    return UserProfile;
+}());
+UserProfile = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
+        selector: 'user-profile',
+        styles: ["\n    .box-rsvp {\n      margin: 30px;\n    }\n    .number {\n      font-size: 35px;\n    }\n    .shop {\n      font-size: 35px;      \n    }\n  "],
+        template: "\n    <ion-header>\n      <ion-navbar>\n        <button ion-button menuToggle>\n          <ion-icon name=\"menu\"></ion-icon>\n        </button>\n        <ion-title>Tu reserva</ion-title>\n      </ion-navbar>\n    </ion-header>\n    \n    <ion-content padding>\n     {{ reserve | json }}\n      <div *ngIf=\"reserve\">\n        <ion-card>\n          <ion-card-header class=\"header\">\n            Probador reservado\n          </ion-card-header>\n          <ion-card-content class=\"content\">\n            <p>\n              Has reservado turno en <span class=\"shop\">{{reserve.shop.name}}</span>\n            </p>\n            <p>\n              Tu n\u00FAmero es: <span class=\"number\">{{reserve.number}}</span>\n            </p>\n          </ion-card-content>\n        </ion-card>\n      </div>\n    </ion-content>\n  "
+    }),
+    __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__shared_user_service__["a" /* UserService */],
+        __WEBPACK_IMPORTED_MODULE_2__shared_reserve_service__["a" /* ReserveService */]])
+], UserProfile);
+
+//# sourceMappingURL=user-profile.js.map
 
 /***/ }),
 
@@ -594,12 +621,12 @@ LoadDataPage = __decorate([
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return LoadDataProvider; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__shared_load_queue__ = __webpack_require__(443);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__shared_load_queue__ = __webpack_require__(446);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map__ = __webpack_require__(42);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_angularfire2_database__ = __webpack_require__(34);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__shared_load_shops__ = __webpack_require__(444);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__shared_load_shops__ = __webpack_require__(447);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -647,73 +674,9 @@ LoadDataProvider = __decorate([
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return RoomsPage; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__shared_microservice_service__ = __webpack_require__(156);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__shared_shops_service__ = __webpack_require__(65);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__shared_queue_service__ = __webpack_require__(52);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_ionic_angular__ = __webpack_require__(27);
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-
-
-
-var RoomsPage = (function () {
-    function RoomsPage(navCtrl, queueService, shopService, micoservice) {
-        this.navCtrl = navCtrl;
-        this.queueService = queueService;
-        this.shopService = shopService;
-        this.micoservice = micoservice;
-    }
-    RoomsPage.prototype.ngOnInit = function () {
-        this.shops$ = this.shopService.listenShop();
-    };
-    RoomsPage.prototype.updateRoom = function (roomId, occupied) {
-        var _this = this;
-        if (!occupied) {
-            this.queueService.popUser('/granvia').then(function (user) {
-                _this.micoservice.occupateRoom('granvia', roomId, user).subscribe(function (e) { return console.log(e); });
-            });
-        }
-        else {
-            this.micoservice.desoccupateRoom('granvia', roomId).subscribe(function (e) { return console.log(e); });
-        }
-    };
-    RoomsPage.prototype.selectShop = function (shop) {
-        this.selectedShop = shop;
-        this.queue$ = this.queueService.listenQueue("/" + this.selectedShop);
-        this.rooms$ = this.shopService.listenShop("/" + this.selectedShop + "/rooms");
-    };
-    return RoomsPage;
-}());
-RoomsPage = __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_3__angular_core__["n" /* Component */])({
-        selector: 'rooms',template:/*ion-inline-start:"C:\Users\andy\workspace\hackathon\irh-client\src\pages\rooms\rooms.html"*/'<ion-header>\n\n    <ion-navbar>\n\n      <button ion-button menuToggle>\n\n        <ion-icon name="menu"></ion-icon>\n\n      </button>\n\n      <ion-title>Rooms</ion-title>\n\n    </ion-navbar>\n\n  </ion-header>\n\n\n\n  <ion-content padding>\n\n    <div>\n\n      <div (click)="selectShop(shop.id)" *ngFor="let shop of shops$ | async; let i = index">\n\n        <h4>{{shop.name}}</h4>\n\n        Tiempo de espera aprox en probadores: XX:XX\n\n      </div>\n\n    </div>\n\n    <div class="container-bussines">\n\n      <show-queue>\n\n          <show-queue-item *ngFor="let user of queue$ | async ; let i = index" [ticket]="user.timestamp" [userId]="user.userId">\n\n          </show-queue-item>\n\n      </show-queue>\n\n      <show-room>\n\n        <show-room-item *ngFor="let room of rooms$ | async; let i = index" [roomId]="room.id" [occupied]="room.occupied" (click)="updateRoom(room.id, room.occupied)">\n\n        </show-room-item>\n\n      </show-room>\n\n    </div>\n\n  </ion-content>\n\n'/*ion-inline-end:"C:\Users\andy\workspace\hackathon\irh-client\src\pages\rooms\rooms.html"*/,
-        styles: ["\n    .container-bussines{\n      display: flex;\n    }\n  "]
-    }),
-    __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_4_ionic_angular__["e" /* NavController */], __WEBPACK_IMPORTED_MODULE_2__shared_queue_service__["a" /* QueueService */], __WEBPACK_IMPORTED_MODULE_1__shared_shops_service__["a" /* ShopService */], __WEBPACK_IMPORTED_MODULE_0__shared_microservice_service__["a" /* MicroserviceService */]])
-], RoomsPage);
-
-//# sourceMappingURL=rooms.js.map
-
-/***/ }),
-
-/***/ 298:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__ = __webpack_require__(299);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__app_module__ = __webpack_require__(315);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__ = __webpack_require__(298);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__app_module__ = __webpack_require__(314);
 
 
 Object(__WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__["a" /* platformBrowserDynamic */])().bootstrapModule(__WEBPACK_IMPORTED_MODULE_1__app_module__["a" /* AppModule */]);
@@ -721,44 +684,44 @@ Object(__WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__["a" /* pl
 
 /***/ }),
 
-/***/ 315:
+/***/ 314:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AppModule; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__shared_microservice_service__ = __webpack_require__(156);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common_http__ = __webpack_require__(157);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_show_room_component__ = __webpack_require__(318);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_select_wears_component__ = __webpack_require__(319);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_wall_next_person__ = __webpack_require__(320);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_show_queue_component__ = __webpack_require__(321);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_shop_item_component__ = __webpack_require__(446);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__shared_pipes__ = __webpack_require__(447);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__shared_microservice_service__ = __webpack_require__(157);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common_http__ = __webpack_require__(158);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_show_room_component__ = __webpack_require__(317);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_select_wears_component__ = __webpack_require__(318);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_wall_next_person__ = __webpack_require__(319);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_show_queue_component__ = __webpack_require__(320);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_shop_item_component__ = __webpack_require__(321);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__shared_pipes__ = __webpack_require__(322);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__angular_platform_browser__ = __webpack_require__(46);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_ionic_angular__ = __webpack_require__(27);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__ionic_native_status_bar__ = __webpack_require__(240);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__ionic_native_splash_screen__ = __webpack_require__(243);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__ionic_native_status_bar__ = __webpack_require__(241);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__ionic_native_splash_screen__ = __webpack_require__(244);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13_angularfire2__ = __webpack_require__(48);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__environments_environment__ = __webpack_require__(380);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__environments_environment__ = __webpack_require__(381);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_15_angularfire2_database__ = __webpack_require__(34);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16_angularfire2_auth__ = __webpack_require__(286);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__app_component__ = __webpack_require__(436);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__pages_home_home__ = __webpack_require__(289);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__pages_list_list__ = __webpack_require__(291);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16_angularfire2_auth__ = __webpack_require__(287);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__app_component__ = __webpack_require__(437);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__pages_home_home__ = __webpack_require__(290);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__pages_list_list__ = __webpack_require__(444);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__pages_login_login__ = __webpack_require__(292);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__pages_usersList_usersList__ = __webpack_require__(294);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__pages_load_data_load_data__ = __webpack_require__(295);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__pages_user_profile_user_profile__ = __webpack_require__(445);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__pages_usersList_usersList__ = __webpack_require__(293);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__pages_load_data_load_data__ = __webpack_require__(445);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__pages_user_profile_user_profile__ = __webpack_require__(295);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__providers_auth_provider__ = __webpack_require__(144);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__providers_user_provider__ = __webpack_require__(145);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__providers_load_data_provider__ = __webpack_require__(296);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__pages_get_ticket_auth_get_ticket_auth__ = __webpack_require__(146);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_28__pages_rooms_rooms__ = __webpack_require__(297);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_28__pages_rooms_rooms__ = __webpack_require__(294);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_29__shared_queue_service__ = __webpack_require__(52);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_30__shared_shops_service__ = __webpack_require__(65);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_31__shared_user_service__ = __webpack_require__(84);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_32__shared_reserve_service__ = __webpack_require__(293);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_31__shared_user_service__ = __webpack_require__(66);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_32__shared_reserve_service__ = __webpack_require__(147);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -866,7 +829,7 @@ AppModule = __decorate([
 
 /***/ }),
 
-/***/ 318:
+/***/ 317:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -930,7 +893,7 @@ ShowRoomComponent = __decorate([
 
 /***/ }),
 
-/***/ 319:
+/***/ 318:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -968,7 +931,7 @@ SelectWearsComponent = __decorate([
 
 /***/ }),
 
-/***/ 320:
+/***/ 319:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1010,7 +973,7 @@ WallNextPerson = __decorate([
 
 /***/ }),
 
-/***/ 321:
+/***/ 320:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1075,7 +1038,98 @@ ShowQueueComponent = __decorate([
 
 /***/ }),
 
-/***/ 380:
+/***/ 321:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ShopItem; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+var ShopItem = (function () {
+    function ShopItem() {
+    }
+    return ShopItem;
+}());
+__decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Input */])(),
+    __metadata("design:type", Object)
+], ShopItem.prototype, "shop", void 0);
+ShopItem = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
+        selector: 'shop-item',
+        template: "\n    <h4>{{shop.name}}</h4>\n    Tiempo de espera aprox en probadores: {{shop.estimatedWaitTime | formatTime}}\n  "
+    }),
+    __metadata("design:paramtypes", [])
+], ShopItem);
+
+//# sourceMappingURL=shop-item.component.js.map
+
+/***/ }),
+
+/***/ 322:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return FormatTimePipe; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+/*
+ * Raise the value exponentially
+ * Takes an exponent argument that defaults to 1.
+ * Usage:
+ *   value | exponentialStrength:exponent
+ * Example:
+ *   {{ 2 | exponentialStrength:10 }}
+ *   formats to: 1024
+*/
+var FormatTimePipe = (function () {
+    function FormatTimePipe() {
+    }
+    FormatTimePipe.prototype.transform = function (value) {
+        return this.formatTime(value);
+    };
+    FormatTimePipe.prototype.formatTime = function (s) {
+        var ms = s % 1000;
+        s = (s - ms) / 1000;
+        var secs = s % 60;
+        s = (s - secs) / 60;
+        var mins = s % 60;
+        var hrs = (s - mins) / 60;
+        return this.addZero(hrs) + ':' + this.addZero(mins);
+    };
+    FormatTimePipe.prototype.addZero = function (unitTime) {
+        var unitTimeStr = unitTime.toString();
+        if (unitTimeStr.length === 1) {
+            return '0' + unitTimeStr;
+        }
+        return unitTimeStr;
+    };
+    return FormatTimePipe;
+}());
+FormatTimePipe = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["W" /* Pipe */])({ name: 'formatTime' })
+], FormatTimePipe);
+
+//# sourceMappingURL=pipes.js.map
+
+/***/ }),
+
+/***/ 381:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1094,25 +1148,24 @@ var environment = {
 
 /***/ }),
 
-/***/ 436:
+/***/ 437:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MyApp; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(27);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__ = __webpack_require__(240);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__ = __webpack_require__(243);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__pages_home_home__ = __webpack_require__(289);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__pages_list_list__ = __webpack_require__(291);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__providers_auth_provider__ = __webpack_require__(144);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__pages_login_login__ = __webpack_require__(292);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__pages_usersList_usersList__ = __webpack_require__(294);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__pages_load_data_load_data__ = __webpack_require__(295);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__pages_get_ticket_auth_get_ticket_auth__ = __webpack_require__(146);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__pages_rooms_rooms__ = __webpack_require__(297);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__shared_queue_service__ = __webpack_require__(52);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__shared_shops_service__ = __webpack_require__(65);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__ = __webpack_require__(241);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__ = __webpack_require__(244);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__pages_home_home__ = __webpack_require__(290);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__providers_auth_provider__ = __webpack_require__(144);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__pages_login_login__ = __webpack_require__(292);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__pages_usersList_usersList__ = __webpack_require__(293);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__pages_get_ticket_auth_get_ticket_auth__ = __webpack_require__(146);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__pages_rooms_rooms__ = __webpack_require__(294);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__pages_user_profile_user_profile__ = __webpack_require__(295);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__shared_queue_service__ = __webpack_require__(52);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__shared_shops_service__ = __webpack_require__(65);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1135,7 +1188,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-
 var MyApp = (function () {
     function MyApp(platform, statusBar, splashScreen, authProvider, queueService, shopService) {
         this.platform = platform;
@@ -1144,17 +1196,16 @@ var MyApp = (function () {
         this.authProvider = authProvider;
         this.queueService = queueService;
         this.shopService = shopService;
-        this.rootPage = __WEBPACK_IMPORTED_MODULE_7__pages_login_login__["a" /* LoginPage */];
+        this.rootPage = __WEBPACK_IMPORTED_MODULE_6__pages_login_login__["a" /* LoginPage */];
         this.initializeApp();
         // used for an example of ngFor and navigation
         this.pages = [
             { title: 'Panel de tiendas', component: __WEBPACK_IMPORTED_MODULE_4__pages_home_home__["a" /* HomePage */] },
-            { title: 'List', component: __WEBPACK_IMPORTED_MODULE_5__pages_list_list__["a" /* ListPage */] },
-            { title: 'Lista de usuarios', component: __WEBPACK_IMPORTED_MODULE_8__pages_usersList_usersList__["a" /* UsersListPage */] },
-            { title: 'LoadData', component: __WEBPACK_IMPORTED_MODULE_9__pages_load_data_load_data__["a" /* LoadDataPage */] },
-            { title: 'Reservar probador', component: __WEBPACK_IMPORTED_MODULE_10__pages_get_ticket_auth_get_ticket_auth__["a" /* GetTicketAuthPage */] },
-            { title: 'App en Tienda', component: __WEBPACK_IMPORTED_MODULE_11__pages_rooms_rooms__["a" /* RoomsPage */] },
-            { title: 'App en Tienda', component: __WEBPACK_IMPORTED_MODULE_11__pages_rooms_rooms__["a" /* RoomsPage */] },
+            { title: 'Lista de usuarios', component: __WEBPACK_IMPORTED_MODULE_7__pages_usersList_usersList__["a" /* UsersListPage */] },
+            //{ title: 'LoadData', component: LoadDataPage },
+            { title: 'Reservar probador', component: __WEBPACK_IMPORTED_MODULE_8__pages_get_ticket_auth_get_ticket_auth__["a" /* GetTicketAuthPage */] },
+            { title: 'App control', component: __WEBPACK_IMPORTED_MODULE_9__pages_rooms_rooms__["a" /* RoomsPage */] },
+            { title: 'Tu reserva', component: __WEBPACK_IMPORTED_MODULE_10__pages_user_profile_user_profile__["a" /* UserProfile */] },
         ];
         // Observable queue
         this.queueService.listenQueue('/granvia')
@@ -1183,7 +1234,7 @@ var MyApp = (function () {
     };
     MyApp.prototype.onLogout = function () {
         this.authProvider.logout();
-        this.nav.setRoot(__WEBPACK_IMPORTED_MODULE_7__pages_login_login__["a" /* LoginPage */]);
+        this.nav.setRoot(__WEBPACK_IMPORTED_MODULE_6__pages_login_login__["a" /* LoginPage */]);
     };
     return MyApp;
 }());
@@ -1197,16 +1248,117 @@ MyApp = __decorate([
     __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* Platform */],
         __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__["a" /* StatusBar */],
         __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__["a" /* SplashScreen */],
-        __WEBPACK_IMPORTED_MODULE_6__providers_auth_provider__["a" /* AuthProvider */],
-        __WEBPACK_IMPORTED_MODULE_12__shared_queue_service__["a" /* QueueService */],
-        __WEBPACK_IMPORTED_MODULE_13__shared_shops_service__["a" /* ShopService */]])
+        __WEBPACK_IMPORTED_MODULE_5__providers_auth_provider__["a" /* AuthProvider */],
+        __WEBPACK_IMPORTED_MODULE_11__shared_queue_service__["a" /* QueueService */],
+        __WEBPACK_IMPORTED_MODULE_12__shared_shops_service__["a" /* ShopService */]])
 ], MyApp);
 
 //# sourceMappingURL=app.component.js.map
 
 /***/ }),
 
-/***/ 443:
+/***/ 444:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ListPage; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(27);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var ListPage = ListPage_1 = (function () {
+    function ListPage(navCtrl, navParams) {
+        this.navCtrl = navCtrl;
+        this.navParams = navParams;
+        // If we navigated to this page, we will have an item available as a nav param
+        this.selectedItem = navParams.get('item');
+        // Let's populate this page with some filler content for funzies
+        this.icons = ['flask', 'wifi', 'beer', 'football', 'basketball', 'paper-plane',
+            'american-football', 'boat', 'bluetooth', 'build'];
+        this.items = [];
+        for (var i = 1; i < 11; i++) {
+            this.items.push({
+                title: 'Item ' + i,
+                note: 'This is item #' + i,
+                icon: this.icons[Math.floor(Math.random() * this.icons.length)]
+            });
+        }
+    }
+    ListPage.prototype.itemTapped = function (event, item) {
+        // That's right, we're pushing to ourselves!
+        this.navCtrl.push(ListPage_1, {
+            item: item
+        });
+    };
+    return ListPage;
+}());
+ListPage = ListPage_1 = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
+        selector: 'page-list',template:/*ion-inline-start:"C:\Users\andy\workspace\hackathon\irh-client\src\pages\list\list.html"*/'<ion-header>\n\n  <ion-navbar>\n\n    <button ion-button menuToggle>\n\n      <ion-icon name="menu"></ion-icon>\n\n    </button>\n\n    <ion-title>List</ion-title>\n\n  </ion-navbar>\n\n</ion-header>\n\n\n\n<ion-content>\n\n  <ion-list>\n\n    <button ion-item *ngFor="let item of items" (click)="itemTapped($event, item)">\n\n      <ion-icon [name]="item.icon" item-start></ion-icon>\n\n      {{item.title}}\n\n      <div class="item-note" item-end>\n\n        {{item.note}}\n\n      </div>\n\n    </button>\n\n  </ion-list>\n\n  <div *ngIf="selectedItem" padding>\n\n    You navigated here from <b>{{selectedItem.title}}</b>\n\n  </div>\n\n</ion-content>\n\n'/*ion-inline-end:"C:\Users\andy\workspace\hackathon\irh-client\src\pages\list\list.html"*/
+    }),
+    __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* NavParams */]])
+], ListPage);
+
+var ListPage_1;
+//# sourceMappingURL=list.js.map
+
+/***/ }),
+
+/***/ 445:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return LoadDataPage; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(27);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_load_data_provider__ = __webpack_require__(296);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+var LoadDataPage = (function () {
+    function LoadDataPage(navCtrl, navParams, loadDataProvider) {
+        this.navCtrl = navCtrl;
+        this.navParams = navParams;
+        this.loadDataProvider = loadDataProvider;
+    }
+    LoadDataPage.prototype.loadShops = function () {
+        this.loadDataProvider.createShops();
+    };
+    LoadDataPage.prototype.loadQueues = function () {
+        this.loadDataProvider.createQueues();
+    };
+    return LoadDataPage;
+}());
+LoadDataPage = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
+        selector: 'load-data',template:/*ion-inline-start:"C:\Users\andy\workspace\hackathon\irh-client\src\pages\load-data\load-data.html"*/'<ion-header>\n\n  <ion-navbar>\n\n    <button ion-button menuToggle>\n\n      <ion-icon name="menu"></ion-icon>\n\n    </button>\n\n    <ion-title>User List</ion-title>\n\n  </ion-navbar>\n\n</ion-header>\n\n\n\n<ion-content>\n\n  <ion-list>\n\n    <button (click)="loadShops()">\n\n      Load Shops\n\n    </button>\n\n    <button (click)="loadQueues()">\n\n      Load Queues\n\n    </button>\n\n  </ion-list>\n\n\n\n</ion-content>\n\n'/*ion-inline-end:"C:\Users\andy\workspace\hackathon\irh-client\src\pages\load-data\load-data.html"*/
+    }),
+    __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* NavParams */], __WEBPACK_IMPORTED_MODULE_2__providers_load_data_provider__["a" /* LoadDataProvider */]])
+], LoadDataPage);
+
+//# sourceMappingURL=load-data.js.map
+
+/***/ }),
+
+/***/ 446:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1231,7 +1383,7 @@ var queues = {
 
 /***/ }),
 
-/***/ 444:
+/***/ 447:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1355,142 +1507,6 @@ var shops = {
 
 /***/ }),
 
-/***/ 445:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return UserProfile; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-var UserProfile = (function () {
-    function UserProfile() {
-    }
-    UserProfile.prototype.ngOnInit = function () { };
-    return UserProfile;
-}());
-UserProfile = __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
-        selector: 'user-profile',
-        template: "\n    <ion-header>\n      <ion-navbar>\n        <button ion-button menuToggle>\n          <ion-icon name=\"menu\"></ion-icon>\n        </button>\n        <ion-title>Tu reserva</ion-title>\n      </ion-navbar>\n    </ion-header>\n    \n    <ion-content padding>\n    \n  test\n    \n    </ion-content>\n  "
-    }),
-    __metadata("design:paramtypes", [])
-], UserProfile);
-
-//# sourceMappingURL=user-profile.js.map
-
-/***/ }),
-
-/***/ 446:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ShopItem; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__models_shop__ = __webpack_require__(448);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__models_shop___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__models_shop__);
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-var ShopItem = (function () {
-    function ShopItem() {
-    }
-    return ShopItem;
-}());
-__decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Input */])(),
-    __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__models_shop__["Shop"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__models_shop__["Shop"]) === "function" && _a || Object)
-], ShopItem.prototype, "shop", void 0);
-ShopItem = __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
-        selector: 'shop-item',
-        template: "\n    <h4>{{shop.name}}</h4>\n    Tiempo de espera aprox en probadores: {{shop.estimatedWaitTime | formatTime}}\n  "
-    }),
-    __metadata("design:paramtypes", [])
-], ShopItem);
-
-var _a;
-//# sourceMappingURL=shop-item.component.js.map
-
-/***/ }),
-
-/***/ 447:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return FormatTimePipe; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-
-/*
- * Raise the value exponentially
- * Takes an exponent argument that defaults to 1.
- * Usage:
- *   value | exponentialStrength:exponent
- * Example:
- *   {{ 2 | exponentialStrength:10 }}
- *   formats to: 1024
-*/
-var FormatTimePipe = (function () {
-    function FormatTimePipe() {
-    }
-    FormatTimePipe.prototype.transform = function (value) {
-        return this.formatTime(value);
-    };
-    FormatTimePipe.prototype.formatTime = function (s) {
-        var ms = s % 1000;
-        s = (s - ms) / 1000;
-        var secs = s % 60;
-        s = (s - secs) / 60;
-        var mins = s % 60;
-        var hrs = (s - mins) / 60;
-        return this.addZero(hrs) + ':' + this.addZero(mins);
-    };
-    FormatTimePipe.prototype.addZero = function (unitTime) {
-        var unitTimeStr = unitTime.toString();
-        if (unitTimeStr.length === 1) {
-            return '0' + unitTimeStr;
-        }
-        return unitTimeStr;
-    };
-    return FormatTimePipe;
-}());
-FormatTimePipe = __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["W" /* Pipe */])({ name: 'formatTime' })
-], FormatTimePipe);
-
-//# sourceMappingURL=pipes.js.map
-
-/***/ }),
-
-/***/ 448:
-/***/ (function(module, exports) {
-
-//# sourceMappingURL=shop.js.map
-
-/***/ }),
-
 /***/ 52:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -1500,11 +1516,11 @@ FormatTimePipe = __decorate([
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_angularfire2_database__ = __webpack_require__(34);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_Observable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_switchMap__ = __webpack_require__(290);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_switchMap__ = __webpack_require__(291);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_switchMap___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_switchMap__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_take__ = __webpack_require__(438);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_take__ = __webpack_require__(439);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_take___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_take__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_rxjs_add_observable_of__ = __webpack_require__(441);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_rxjs_add_observable_of__ = __webpack_require__(442);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_rxjs_add_observable_of___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_rxjs_add_observable_of__);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -1568,11 +1584,10 @@ var QueueService = (function () {
     };
     QueueService.prototype.popUser = function (path) {
         var _this = this;
-        var user = null;
         return this.afDataBase.database.ref(this.queuesPath + path).once('value').then(function (value) {
             var object = value.val();
             var key = Object.keys(object)[0];
-            user = object[key];
+            var user = object[key];
             _this.removeItemFromList(path, key);
             return user;
         });
@@ -1632,14 +1647,14 @@ ShopService = __decorate([
 
 /***/ }),
 
-/***/ 84:
+/***/ 66:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return UserService; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_angularfire2_database__ = __webpack_require__(34);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_switchMap__ = __webpack_require__(290);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_switchMap__ = __webpack_require__(291);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_switchMap___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_switchMap__);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -1677,5 +1692,5 @@ UserService = __decorate([
 
 /***/ })
 
-},[298]);
+},[297]);
 //# sourceMappingURL=main.js.map
