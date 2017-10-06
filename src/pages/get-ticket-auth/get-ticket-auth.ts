@@ -5,7 +5,6 @@ import { NavController } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
 import { AngularFireDatabase } from 'angularfire2/database'
 
-import { UserProfile } from '../user-profile/user-profile';
 import { ShopService } from '../../shared/shops.service';
 import { UserService } from '../../shared/user.service';
 import { ReserveService } from '../../shared/reserve.service';
@@ -25,7 +24,7 @@ import { Reserve } from '../../models/reserve';
       font-size: 35px;
     }
     .shop {
-      font-size: 35px;      
+      font-size: 35px;
     }
     .bold {
       font-size: 17px;            
@@ -47,6 +46,7 @@ export class GetTicketAuthPage {
   selectedWear: number;
   reserved: boolean = false;
   objQueue: ObjQueue;
+  waitTime: number;
 
   constructor(
     public navCtrl: NavController,
@@ -88,6 +88,12 @@ export class GetTicketAuthPage {
     this.reserve$ = this.reserveService.getReserve$(this.selectedShop.id);
     this.afDataBase.database.ref(`/queues`).child(this.selectedShop.id).push(this.objQueue);
     this.reserved = true;
+    this.queueService.listenQueue('/' + this.selectedShop.id)
+      .map((queue) => queue
+      .filter((guy) => guy.timestamp <= this.objQueue.timestamp)
+      .reduce((acc, guy) => acc + (guy.wearAvg * guy.wearCount), 0)
+      )
+      .forEach((time) => this.waitTime = time);
   }
 
 }

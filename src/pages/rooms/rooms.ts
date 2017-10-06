@@ -18,6 +18,15 @@ import 'rxjs/add/observable/timer';
       display: flex;
       flex-direction: row;
     }
+    .shop-container{
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-around;
+    }
+    shop-item{
+      cursor: pointer;
+    }
   `]
 })
 export class RoomsPage implements OnInit {
@@ -30,10 +39,12 @@ export class RoomsPage implements OnInit {
   modifyWears: number = null;
   timer$: Observable<number>;
   timer: any;
+  start: number;
   constructor(public navCtrl: NavController, private queueService: QueueService, private shopService: ShopService, private microservice: MicroserviceService) { }
 
   ngOnInit() {
     this.shops$ = this.shopService.listenShop();
+    this.start = 60;
   }
 
   updateRoom(roomId, occupied) {
@@ -48,29 +59,30 @@ export class RoomsPage implements OnInit {
       });
     } else {
       this.microservice.desoccupateRoom(`${this.selectedShop}`,roomId).subscribe();
-
-      //this.timer$.subscribe(e => this.queueService.popUser(`/${this.selectedShop}`).then());
-      /*this.shopService.listenShop(`/${this.selectedShop}/rooms`)
-      .filter(room => !room.occupied)
-      .timer(1000).
-      subscribe(e => this.microservice.desoccupateRoom(`${this.selectedShop}`,roomId).subscribe())*/
     }
 
   }
 
+  deleteFromQueue(){
+    this.queueService.popUser(`/${this.selectedShop}`).then();
+  }
+
   selectShop(shop) {
-    this.selectedShop = shop;
+    this.selectedShop = shop.id;
     this.queue$ = this.queueService.listenQueue(`/${this.selectedShop}`);
     this.rooms$ = this.shopService.listenShop(`/${this.selectedShop}/rooms`);
     this.queueTime$ = this.queueService.getTimeEstimatedQueue(`/${this.selectedShop}`);
-    /*const start = 30;
-    this.timer$ = this.shopService.listenShop(`/${this.selectedShop}/rooms`)
-      .filter(room => room && !room.occupied)
-      .switchMap(e => Observable.timer(1000,1000))
-      .map(i => start - i)
-      .take(start + 1);
+    console.log('Obvserva a tu madre', this.rooms$);
+    this.rooms$
+      .subscribe( rooms => rooms.filter( room => !room.occupied ).slice(-1).map(this.setTimer.bind(this)))
+  }
 
-    this.timer = this.timer$.subscribe(e => console.log('aaaaa'));*/
+  setTimer(){
+
+    this.timer$ = Observable
+      .timer(1000,1000)
+      .map(i => this.start - i)
+      .take(this.start + 1);
   }
 
   updateQueue($event) {

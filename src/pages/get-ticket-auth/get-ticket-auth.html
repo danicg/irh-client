@@ -39,6 +39,9 @@
         <p>
           Tu número es: <span class="number">{{(reserve$ | async)?.turn}}</span>
         </p>
+        <p>
+            Tiempo restante: <span class="number">{{waitTime | formatTime }}</span>
+        </p>
       </ion-card-content>
     </ion-card>
   </div>
