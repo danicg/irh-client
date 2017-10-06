@@ -31,10 +31,10 @@
       </ion-card-header>
       <ion-card-content class="content">
         <p>
-          Has reservado turno en <span class="shop">{{selectedShop.name}}</span>
+          Has reservado turno en <span class="shop">{{(reserve$ | async)?.name}}</span>
         </p>
         <p>
-          Tu número es: <span class="number">{{objQueue.timestamp}}</span>
+          Tu número es: <span class="number">{{(reserve$ | async)?.turn}}</span>
         </p>
       </ion-card-content>
     </ion-card>

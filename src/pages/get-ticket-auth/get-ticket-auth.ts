@@ -10,6 +10,7 @@ import { ShopService } from '../../shared/shops.service';
 import { UserService } from '../../shared/user.service';
 import { ReserveService } from '../../shared/reserve.service';
 import { Shop } from '../../models/shop';
+import { Reserve } from '../../models/reserve';
 
 @Component({
   selector: 'get-ticket-auth',
@@ -28,6 +29,8 @@ import { Shop } from '../../models/shop';
 })
 export class GetTicketAuthPage {
   shops$: Observable<Shop[]>;
+  queue$: Observable<Shop[]>;
+  reserve$: Observable<ObjQueue>;
   selectedShop: Shop;
   selectedWear: number;
   reserved: boolean = false;
@@ -41,7 +44,7 @@ export class GetTicketAuthPage {
     private reserveService: ReserveService,
     private queueService: QueueService) {
 
-    this.shops$ = this.shopService.listenShop();
+    this.shops$ = this.shopService.listenShop();    
   }
 
   ngOnInit() {
@@ -68,8 +71,9 @@ export class GetTicketAuthPage {
     };
     this.reserveService.setReserve({
       shop: this.selectedShop,
-      number: this.objQueue.timestamp
+      number: this.objQueue.turn
     });
+    this.reserve$ = this.reserveService.getReserve$(this.selectedShop.id);
     this.afDataBase.database.ref(`/queues`).child(this.selectedShop.id).push(this.objQueue);
     this.reserved = true;
   }
