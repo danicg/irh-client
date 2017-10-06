@@ -22,7 +22,7 @@ import { ShopService } from '../shared/shops.service';
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage: any = LoginPage;
+  rootPage: any = RoomsPage;
 
   pages: Array<{title: string, component: any}>;
 
@@ -48,7 +48,7 @@ export class MyApp {
 
     // Observable queue
     this.queueService.listenQueue('/granvia')
-      .subscribe(e => {  
+      .subscribe(e => {
         console.log('queue',e);
       });
 
