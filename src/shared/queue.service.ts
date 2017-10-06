@@ -63,11 +63,13 @@ export class QueueService {
   popUser(path: string): Promise<any> {
 
     return this.afDataBase.database.ref(this.queuesPath + path).once('value').then(value => {
-      const object = value.val();
-      const key = Object.keys(object)[0];
-      const user = object[key];
-      this.removeItemFromList(path,key);
-      return user;
+      if(value && value.val()) {
+        const object = value.val();
+        const key = Object.keys(object)[0];
+        const user = object[key];
+        this.removeItemFromList(path,key);
+        return user;
+      }
     })
   }
 

@@ -14,7 +14,9 @@
         Tiempo de espera aprox en probadores: XX:XX
       </div>
     </div>
+    <select-wears (numWear)="modifyWears = $event;"></select-wears>
     <div class="container-bussines">
+
       <show-queue [length]="(queue$ | async)?.length" [time]="(queueTime$ | async)">
         <ion-list>
           <ion-item *ngFor="let user of queue$ | async ; let i = index">
@@ -22,7 +24,8 @@
             Turno: {{user.turn}}
             <br>
             Nº prendas: {{user.wearCount}}
-            <select-wears (numWear)="modifyWears = $event;"></select-wears>
+            <br>
+            <div>Tiempo: {{this.timer$ | async}}</div>
           </ion-item>
         </ion-list>
       </show-queue>
