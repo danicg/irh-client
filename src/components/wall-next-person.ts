@@ -20,8 +20,7 @@ import { User } from '../models/user';
   `],
   template: `
   <ion-card>
-    <ion-card-header class="header">
-      {{shop}}
+    <ion-card-header class="header">      
     </ion-card-header>
     <ion-card-content class="content">
       <span *ngIf="user" class="number">{{user?.turn}}</span> es tu turno en los probadores durante: 02:00min.
