@@ -26,9 +26,11 @@
             <br>
             Nº prendas: {{user.wearCount}}
             <br>
-            Tiempo disponible: {{timer$ | async}}
-            <br>
-            Eliminar de la cola <ion-icon name="trash" style="margin-left:5px;" (click)="deleteFromQueue()"></ion-icon>
+            <div *ngIf="i === 0">
+              Tiempo disponible: {{timer$ | async}}
+              <br>
+              Eliminar de la cola <ion-icon name="trash" style="margin-left:5px;" (click)="deleteFromQueue()"></ion-icon>
+            </div>
           </ion-item>
         </ion-list>
       </show-queue>
