@@ -3,24 +3,27 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Reservar probador</ion-title>
+    <ion-title>Reserva probador</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  <div *ngIf="!reserved">
-  <h3>Zaras cercanos a tu ubicación y su trafico actual:</h3>
-  <div>
+  <div *ngIf="!reserved">  
+  <div class="shop-container">
+    Elije una tienda:
     <shop-item (click)="selectShop(shop)" [shop]="shop" *ngFor="let shop of shops$ | async; let i = index">
     </shop-item>
   </div>
 
   <select-wears *ngIf="selectedShop" (numWear)="selectedWear = $event;">
-
   </select-wears>
   <div class="box-rsvp" *ngIf="selectedWear">
-    <h5>Reservar turno en tienda: {{selectedShop.name}}</h5>
-    <h5>Numero de prendas: {{selectedWear}}</h5>
+    <ion-label>Reservar turno en tienda:
+      <span class="bold">{{selectedShop.name}}</span>
+    </ion-label>
+    <ion-label>Numero de prendas:
+      <span class="bold">{{selectedWear}}</span>
+    </ion-label>      
     <button (click)="reserve()" ion-button>Reservar</button>
   </div>
   </div>
@@ -34,7 +37,7 @@
           Has reservado turno en <span class="shop">{{selectedShop.name}}</span>
         </p>
         <p>
-          Tu número es: <span class="number">{{objQueue.timestamp}}</span>
+          Tu número es: <span class="number">{{(reserve$ | async)?.turn}}</span>
         </p>
         <p>
             Tiempo restante: <span class="number">{{waitTime | formatTime }}</span>
