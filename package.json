@@ -11,7 +11,10 @@
     "ionic:build": "ionic-app-scripts build",
     "ionic:serve": "ionic-app-scripts serve",
     "pregithub-pages": "npm build --prod --base-href=ionic-seed --repo=https://github.com/andyindahouse/ionic-seed.git",
-    "github-pages": "ngh --dir www"
+    "github-pages": "ngh --dir www",
+    "docker-build": "cross-var docker build . -t $npm_package_config_imageName:$npm_package_version -t $npm_package_config_imageName:latest",
+    "docker-push": "cross-var docker push $npm_package_config_imageName:$npm_package_version && docker push $npm_package_config_imageName:latest",
+    "deploy": "npm run docker-build && npm run docker-push"
   },
   "dependencies": {
     "@angular/common": "4.4.3",
@@ -36,9 +39,13 @@
     "sw-toolbox": "3.6.0",
     "zone.js": "0.8.18"
   },
+  "config": {
+    "imageName": "h2729551.stratoserver.net:5000/irh-ionic"
+  },
   "devDependencies": {
     "@ionic/app-scripts": "3.0.0",
     "angular-cli-ghpages": "^0.5.1",
+    "cross-var": "^1.0.3",
     "ngrx-store-freeze": "^0.2.0",
     "typescript": "2.3.4"
   },
