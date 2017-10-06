@@ -10,6 +10,7 @@ export class MicroserviceService {
   constructor(private _http: HttpClient) { }
 
   occupateRoom(shopId: string, roomId: string, userPayload: ObjQueue): Observable<any> {
+    delete userPayload['turn'];
     return this._http.post(`${this.path}/${shopId}/${roomId}`, { user: userPayload});
   }
 

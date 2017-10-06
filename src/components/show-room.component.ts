@@ -4,55 +4,44 @@ import { Component, Input } from '@angular/core';
   selector: 'show-room-item',
   template: `
   <ion-card>
-    <ion-card-header>
+    <ion-card-header class="room">
       <div class="title"> Probador {{roomId}}</div> <div class="semaphore" [class.occupied]="occupied"></div>
     </ion-card-header>
     <hr *ngIf="occupied">
     <ion-card-content *ngIf="occupied">
-      Ticket: {{ timestamp }}
+      Turno: {{ turn }}
       <br>
       WearCount: {{ wearCount }}
     </ion-card-content>
   </ion-card>
-  <!--div class="show-room-item" [class.occupied]="occupied">
-    Probador: {{roomId}}
-    <div *ngIf="occupied">
-      Ticket: {{ timestamp }}
-      WearCount: {{ wearCount }}
-    </div>
-
-  </div-->
   `,
   styles:[`
-    .show-room-item{
-      margin: 15px;
-    }
     .semaphore {
       width: 20px;
       height: 20px;
       border-radius: 10px;
       background-color: green;
-      position: relative;
-      float:right;
     }
     .title{
       position: relative;
       margin-right: 10px;
-      float:left;
     }
     .occupied {
       background-color: red;
+    }
+    .room{
+      cursor: pointer;
+    }
+    .room{
+      display:flex;
     }
   `]
 })
 export class ShowRoomItemComponent {
   @Input('roomId') roomId: string;
   @Input('occupied') occupied = false;
-  @Input('userId') ticket : number;
-  @Input('name') userId : string;
-  @Input('timestamp') timestamp : number;
+  @Input('turn') turn : number;
   @Input('wearCount') wearCount : number;
-  @Input('wearAvg') wearAvg : number;
 }
 
 @Component({
