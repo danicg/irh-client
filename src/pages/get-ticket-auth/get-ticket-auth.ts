@@ -18,12 +18,24 @@ import { Reserve } from '../../models/reserve';
   styles: [`
     .box-rsvp {
       margin: 30px;
+      display: flex;
+      flex-direction: column;
     }
     .number {
       font-size: 35px;
     }
     .shop {
       font-size: 35px;      
+    }
+    .bold {
+      font-size: 17px;            
+      font-weight: 600px;
+    }
+    .shop-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-around;      
     }
   `]
 })
