@@ -16,7 +16,7 @@ import { Reserve } from '../../models/reserve';
       font-size: 35px;
     }
     .shop {
-      font-size: 35px;      
+      font-size: 35px;
     }
   `],
   template: `
@@ -28,7 +28,7 @@ import { Reserve } from '../../models/reserve';
         <ion-title>Tu reserva</ion-title>
       </ion-navbar>
     </ion-header>
-    
+
     <ion-content padding>
      {{ reserve | json }}
       <div *ngIf="reserve">
@@ -39,6 +39,9 @@ import { Reserve } from '../../models/reserve';
           <ion-card-content class="content">
             <p>
               Has reservado turno en <span class="shop">{{reserve.shop.name}}</span>
+            </p>
+            <p>
+              Tu número es: <span class="number">{{reserve.number}}</span>
             </p>
             <p>
               Tu número es: <span class="number">{{reserve.number}}</span>
@@ -60,8 +63,8 @@ export class UserProfile {
   ) {
     this.user = this.userService.user;
   }
-  
-  ngOnInit() {    
+
+  ngOnInit() {
     if(this.reserveService.reserved) {
       this.reserve = this.reserveService.getReserve();
     }
