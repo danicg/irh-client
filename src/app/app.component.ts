@@ -42,13 +42,13 @@ export class MyApp {
       { title: 'Lista de usuarios', component: UsersListPage },
       //{ title: 'LoadData', component: LoadDataPage },
       { title: 'Reservar probador', component: GetTicketAuthPage },
-      { title: 'App control', component: RoomsPage },
+      //{ title: 'App control', component: RoomsPage },
       { title: 'Tu reserva', component: UserProfile },
     ];
 
     // Observable queue
     this.queueService.listenQueue('/granvia')
-      .subscribe(e => {  
+      .subscribe(e => {
         console.log('queue',e);
       });
 
