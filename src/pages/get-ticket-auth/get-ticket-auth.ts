@@ -5,8 +5,10 @@ import { NavController } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
 import { AngularFireDatabase } from 'angularfire2/database'
 
+import { UserProfile } from '../user-profile/user-profile';
 import { ShopService } from '../../shared/shops.service';
 import { UserService } from '../../shared/user.service';
+import { ReserveService } from '../../shared/reserve.service';
 import { Shop } from '../../models/shop';
 
 @Component({
@@ -36,9 +38,20 @@ export class GetTicketAuthPage {
     private shopService: ShopService,
     private afDataBase: AngularFireDatabase,
     private userService: UserService,
+    private reserveService: ReserveService,
     private queueService: QueueService) {
 
     this.shops$ = this.shopService.listenShop();
+  }
+
+  ngOnInit() {
+    if(this.reserveService.reserved) {
+      this.reserved = true;
+      this.selectedShop = this.reserveService.getReserve().shop;
+      this.objQueue = {
+        timestamp: this.reserveService.getReserve().number
+      }
+    }
   }
 
   selectShop(shop) {
@@ -53,8 +66,12 @@ export class GetTicketAuthPage {
       wearCount: this.selectedWear,
       wearAvg: !this.userService.user.wearAvg ? this.selectedShop.wearAvg : this.userService.user.wearAvg
     };
-    this.reserved = true;
+    this.reserveService.setReserve({
+      shop: this.selectedShop,
+      number: this.objQueue.timestamp
+    });
     this.afDataBase.database.ref(`/queues`).child(this.selectedShop.id).push(this.objQueue);
+    this.reserved = true;
   }
 
 }

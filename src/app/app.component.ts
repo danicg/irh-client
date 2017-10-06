@@ -11,6 +11,7 @@ import { UsersListPage } from '../pages/usersList/usersList';
 import { LoadDataPage } from '../pages/load-data/load-data';
 import { GetTicketAuthPage } from '../pages/get-ticket-auth/get-ticket-auth';
 import { RoomsPage } from '../pages/rooms/rooms';
+import { UserProfile } from '../pages/user-profile/user-profile';
 
 import { QueueService } from '../shared/queue.service';
 import { ShopService } from '../shared/shops.service';
@@ -38,16 +39,16 @@ export class MyApp {
     // used for an example of ngFor and navigation
     this.pages = [
       { title: 'Panel de tiendas', component: HomePage },
-      { title: 'List', component: ListPage },
       { title: 'Lista de usuarios', component: UsersListPage },
-      { title: 'LoadData', component: LoadDataPage },
-      { title: 'Reservar turno', component: GetTicketAuthPage },
-      { title: 'App en Tienda', component: RoomsPage },
+      //{ title: 'LoadData', component: LoadDataPage },
+      { title: 'Reservar probador', component: GetTicketAuthPage },
+      { title: 'App control', component: RoomsPage },
+      { title: 'Tu reserva', component: UserProfile },
     ];
 
     // Observable queue
     this.queueService.listenQueue('/granvia')
-      .subscribe(e => {
+      .subscribe(e => {  
         console.log('queue',e);
       });
 

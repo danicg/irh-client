@@ -20,7 +20,7 @@ export class UserService {
       .subscribe((e: User) => {
         this.user = e;
         console.log(e);
-      })
+      });
   }
 }
 

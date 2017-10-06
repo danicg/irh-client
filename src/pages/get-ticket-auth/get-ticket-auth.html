@@ -3,28 +3,26 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Coger turno en probador</ion-title>
+    <ion-title>Reservar probador</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
   <div *ngIf="!reserved">
-    <h3>Zaras cercanos a tu ubicación y su trafico actual:</h3>
-    <div>
-      <div (click)="selectShop(shop)" *ngFor="let shop of shops$ | async; let i = index">
-        <h4>{{shop.name}}</h4>
-        Tiempo de espera aprox en probadores: XX:XX
-      </div>
-    </div>
+  <h3>Zaras cercanos a tu ubicación y su trafico actual:</h3>
+  <div>
+    <shop-item (click)="selectShop(shop)" [shop]="shop" *ngFor="let shop of shops$ | async; let i = index">
+    </shop-item>
+  </div>
 
-    <select-wears *ngIf="selectedShop" (numWear)="selectedWear = $event;">
+  <select-wears *ngIf="selectedShop" (numWear)="selectedWear = $event;">
 
-    </select-wears>
-    <div class="box-rsvp" *ngIf="selectedWear">
-      <h5>Reservar turno en tienda: {{selectedShop.name}}</h5>
-      <h5>Numero de prendas: {{selectedWear}}</h5>
-      <button (click)="reserve()" ion-button>Reservar</button>
-    </div>
+  </select-wears>
+  <div class="box-rsvp" *ngIf="selectedWear">
+    <h5>Reservar turno en tienda: {{selectedShop.name}}</h5>
+    <h5>Numero de prendas: {{selectedWear}}</h5>
+    <button (click)="reserve()" ion-button>Reservar</button>
+  </div>
   </div>
   <div *ngIf="reserved">
     <ion-card>
